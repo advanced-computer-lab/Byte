@@ -7,7 +7,7 @@ const db = config.get('mongoURI');
 
 // configurations
 
-// Mongo DB connection without async
+// Mongo DB connection without async -
 // mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
 // .then(result =>console.log("MongoDB is now connected") )
 // .catch(err => console.log(err));

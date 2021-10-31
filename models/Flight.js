@@ -14,13 +14,22 @@ const flightSchema = new Schema({
     type: String,
     required: true,
   },
-  Cabin: {
-    type: String,
-    required: true,
-  },
-  SeatsAvailable: {
+  EconomySeatsAvailable: {
     type: Number,
     required: true,
+  },
+  BusinessSeatsAvailable: {
+    type: Number,
+    required: true,
+  },
+  FirstSeatsAvailable: {
+    type: Number,
+    required: true,
+  },
+  FlightNumber: {
+    type: Number,
+    required: true,
+    unique: true,
   },
 }, { timestamps: true });
 
