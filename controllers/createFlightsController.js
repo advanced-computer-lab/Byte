@@ -17,8 +17,8 @@ router.get('/',(req,res)=>{
 
 //inserts flights into dtatabase
 router.post("/",function(req,res){
-    console.log(req.body);
-    var from = document.getElementById("from").value;
+    
+    var from = req.body.from;
     var To = req.body.To;
     var FlightDate = req.body.FlightDate;
     var EconomySeatsAvailable = req.body.EconomySeatsAvailable;
@@ -27,7 +27,7 @@ router.post("/",function(req,res){
     var FlightNumber = req.body.FlightNumber;
 
     var new_flight={
-        from: from,
+        From: from,
         To:To,
         FlightDate: FlightDate,
         EconomySeatsAvailable:EconomySeatsAvailable,
@@ -37,6 +37,9 @@ router.post("/",function(req,res){
         };
 
     Flight.insertMany(new_flight);
+
+    res.send("Flight was created successfully!");
+
 });
 
 module.exports = router;

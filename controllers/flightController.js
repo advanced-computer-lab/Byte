@@ -9,7 +9,6 @@ router.use(express.urlencoded({extended: true}));
 router.use(express.json());
 
 //returns all users in database
-
 router.get('/', (req, res) => {
     Flight.find({}, function(err, all_flights) {
         if (!err) { 
