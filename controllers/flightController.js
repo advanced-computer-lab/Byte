@@ -18,17 +18,22 @@ router.get('/', (req, res) => {
             throw err;
         }
     });
+});
     //console.log(all_flights);
     //res.render('\list', {all_flights});
 
-    router.get('/delete/:id').delete((req,res)=>{
-        if (typeof window !=="undefined")
-        { if (Window.confirm('sure ??')){
-            Flight.findByIdAndDelete(req.params.id)
-            .then(() =>res.json({msg:'delete successful'}))
-            .catch(err=> res.status(404).json('error'+ err));
-        }}
-        })
+    router.get('/delete',(req,res)=>{
+
+     Flight.remove({ FlightNumber: req.query.flight }, function(err) {
+          if (!err) {
+              res.send("Deleted Successfully!");
+                  }              
+           else {
+             res.send("Something went wrong!");
+          }
+       });
+             
+            
          
 });
 
