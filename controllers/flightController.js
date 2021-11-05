@@ -20,6 +20,16 @@ router.get('/', (req, res) => {
     });
     //console.log(all_flights);
     //res.render('\list', {all_flights});
+
+    router.get('/delete/:id').delete((req,res)=>{
+        if (typeof window !=="undefined")
+        { if (Window.confirm('sure ??')){
+            Flight.findByIdAndDelete(req.params.id)
+            .then(() =>res.json({msg:'delete successful'}))
+            .catch(err=> res.status(404).json('error'+ err));
+        }}
+        })
+         
 });
 
 module.exports = router;
