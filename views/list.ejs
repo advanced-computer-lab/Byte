@@ -13,7 +13,10 @@
         <li>Business Seats Available: <%= all_flights[i].BusinessSeatsAvailable %></li>
         <li>First Seats Available: <%= all_flights[i].FirstSeatsAvailable %></li>
         <br>
+       
+        <a href="/updateflight?FlightNumber=<%= all_flights[i].FlightNumber %>">
         <button style="color: green;">Update</button>
+        </a>
         <button style="color: red;">Delete</button>
         <hr><br>
     <% } %>

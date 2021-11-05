@@ -15,7 +15,7 @@ router.get('/',(req,res)=>{
     res.render('create.ejs');
 });
 
-//inserts flights into dtatabase
+//inserts flights into database
 router.post("/",function(req,res){
     
     var from = req.body.from;

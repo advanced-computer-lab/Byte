@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Update Flight <%=flightnumber %> </h2>
+
+<form action="/updateflight?flightnumber=<%=flightnumber %>" method="POST">
+  <label for="from">From:</label><br>
+  <input type="text" id="From" name="From"><br>
+  <label for="To">To:</label><br>
+  <input type="text" id="To" name="To"><br>
+  <label for="FlightDate">Flight Date:</label><br>
+  <input type="text" id="FlightDate" name="FlightDate"><br>
+  <label for="EconomySeatsAvailable">Economy Seats Available:</label><br>
+  <input type="text" id="EconomySeatsAvailable" name="EconomySeatsAvailable"><br>
+  <label for="BusinessSeatsAvailable">Business Seats Available:</label><br>
+  <input type="text" id="BusinessSeatsAvailable" name="BusinessSeatsAvailable"><br>
+  <label for="FirstSeatsAvailable">First Seats Available:</label><br>
+  <input type="text" id="FirstSeatsAvailable" name="FirstSeatsAvailable"><br>
+  <label for="FlightNumber">Flight Number:</label><br>
+  <input type="text" id="FlightNumber" name="FlightNumber"><br>
+  
+
+    <button>Save</button>
+  
+</form>
+  
+  
+
+</body>
+</html>
