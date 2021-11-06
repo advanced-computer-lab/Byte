@@ -5,10 +5,11 @@ const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 8000;
 const connectDB = require('./config/db');
+
 const userController = require('./controllers/userController.js');
 const flightController = require('./controllers/flightController.js');
 const createFlightsController = require('./controllers/createFlightsController.js');
-
+const updateflightController=require('./controllers/updateflightController.js');
 
 //connect Database
 connectDB();
@@ -24,6 +25,9 @@ app.use(express.json());
 app.use('/user', userController);
 app.use('/list', flightController);
 app.use('/create', createFlightsController);
+
+app.use('/updateflight',updateflightController);
+
 //app.get('/', (req,res) => res.send('API Running'));
 
 
