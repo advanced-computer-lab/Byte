@@ -18,8 +18,23 @@ router.get('/', (req, res) => {
             throw err;
         }
     });
+});
     //console.log(all_flights);
     //res.render('\list', {all_flights});
+
+    router.get('/delete',(req,res)=>{
+
+     Flight.remove({ FlightNumber: req.query.flight }, function(err) {
+          if (!err) {
+              res.send("Deleted Successfully!");
+                  }              
+           else {
+             res.send("Something went wrong!");
+          }
+       });
+             
+            
+         
 });
 
 module.exports = router;

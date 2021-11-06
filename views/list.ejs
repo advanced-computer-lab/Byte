@@ -16,8 +16,9 @@
        
         <a href="/updateflight?FlightNumber=<%= all_flights[i].FlightNumber %>">
         <button style="color: green;">Update</button>
-        </a>
-        <button style="color: red;">Delete</button>
+        <a href="/list/delete?flight=<%=all_flights[i].FlightNumber%>"> 
+        <button style="color: red;" name="con" id="con" onclick="return confirm('Are you sure you want to delete this item?');" > Delete</button>
+        </a> 
         <hr><br>
     <% } %>
     </ul>
