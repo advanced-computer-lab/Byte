@@ -1,0 +1,13 @@
+Team Members:
+Yomna Islam	46-13722	T-26
+Dinah Waref	46-18006	T-26
+Marwa Mohammed	46-5518		T-26
+Menna Mohammed	46-5183		T-26
+Nada Diaa	46-1376		T-22
+
+Division of Sprint #1:
+Create db + admin seeding (3) -> Dinah
+Create  + list (4&6) -> Yomna
+Update + update flight schedule (7&10)--> Menna
+Delete + confirm (8&9) -> Nada
+Search (5)-> Marwa
