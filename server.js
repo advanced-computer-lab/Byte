@@ -10,6 +10,7 @@ const userController = require('./controllers/userController.js');
 const flightController = require('./controllers/flightController.js');
 const createFlightsController = require('./controllers/createFlightsController.js');
 const updateflightController=require('./controllers/updateflightController.js');
+const searchController=require('./controllers/searchController.js');
 
 //connect Database
 connectDB();
@@ -22,10 +23,13 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
 //Routes
+app.get('/', (req, res) => {
+    res.render('adminHome.ejs');
+});
 app.use('/user', userController);
 app.use('/list', flightController);
 app.use('/create', createFlightsController);
-
+app.use('/search', searchController);
 app.use('/updateflight',updateflightController);
 
 //app.get('/', (req,res) => res.send('API Running'));
