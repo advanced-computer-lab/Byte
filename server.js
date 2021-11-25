@@ -1,5 +1,6 @@
 // External variables
 const express = require("express");
+var cors = require('cors');
 
 //App variables
 const app = express();
@@ -12,25 +13,30 @@ const createFlightsController = require('./controllers/createFlightsController.j
 const updateflightController=require('./controllers/updateflightController.js');
 const searchController=require('./controllers/searchController.js');
 
+const flightRouter = require('./routers/flightsRouter.js');
+
 //connect Database
 connectDB();
 
-app.set('view engine','ejs');
+// app.set('view engine','ejs');
 
-//middlewares
-app.set('view engine','ejs');
-app.use(express.urlencoded({extended: true})); 
-app.use(express.json());
+// //middlewares
+// app.set('view engine','ejs');
+// app.use(express.urlencoded({extended: true})); 
+// app.use(express.json());
+app.use(cors());
+
+//redirect to routers
+app.use('/flights',flightRouter);
 
 //Routes
-app.get('/', (req, res) => {
-    res.render('adminHome.ejs');
-});
-app.use('/user', userController);
-app.use('/list', flightController);
-app.use('/create', createFlightsController);
-app.use('/search', searchController);
-app.use('/updateflight',updateflightController);
+// router.get('/', (req, res) => {
+//     res.render('adminHome.ejs');
+// });
+// router.get('/user', userController);
+// router.get('/create', createFlightsController);
+// router.get('/search', searchController);
+// router.get('/updateflight',updateflightController);
 
 //app.get('/', (req,res) => res.send('API Running'));
 

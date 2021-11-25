@@ -9,16 +9,14 @@ router.use(express.urlencoded({extended: true}));
 router.use(express.json());
 
 //returns all users in database
-router.get('/', (req, res) => {
-    Flight.find({}, function(err, all_flights) {
-        if (!err) { 
-            res.render('\list', {all_flights});
-        }
-        else {
-            throw err;
-        }
+const getAllFlights=(req,res)=>
+{
+    console.log("Im here");
+    Flight.find({}).then((result)=>{
+        res.header("Content-Type",'application/json');
+        res.send(JSON.stringify(result, null, 4));
     });
-});
+};
     //console.log(all_flights);
     //res.render('\list', {all_flights});
 
@@ -37,4 +35,4 @@ router.get('/', (req, res) => {
          
 });
 
-module.exports = router;
+module.exports = {getAllFlights, router};
