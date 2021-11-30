@@ -66,8 +66,4 @@ const getArrivalCabins=(req,res)=>
 };
 
 
-<<<<<<< Updated upstream
-module.exports = router;
-=======
 module.exports = {getAllFlights, getDepartureFlights, getArrivalFlights, getDepartureCabins, getArrivalCabins, router};
->>>>>>> Stashed changes

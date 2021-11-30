@@ -1,6 +1,6 @@
 const express=require('express');
 const flightController=require('../Controllers/flightController');
-//const departureFlightController=require('../Controllers/departureFlightController');
+
 const flightRouter=express.Router();
 
 flightRouter.use(express.json());

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<div>
+    <ul>
+    <% for(var i=0; i<Flights.length ; i++) {%>
+        <li>Flight Number: <%= Flights[i].FlightNumber %></li>
+        <li>From: <%= Flights[i].From %></li>
+        <li>To: <%= Flights[i].To %></li>
+        <li>Flight Date: <%= Flights[i].FlightDate %></li>
+        <br>
+        <button style="color: green;">make Reservation</button>
+
+        <hr><br>
+    <% } %>
+    </ul>
+</div>
+
+
+</body>
+</html>

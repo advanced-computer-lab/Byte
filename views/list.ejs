@@ -12,6 +12,13 @@
         <li>Economy Seats Available: <%= all_flights[i].EconomySeatsAvailable %></li>
         <li>Business Seats Available: <%= all_flights[i].BusinessSeatsAvailable %></li>
         <li>First Seats Available: <%= all_flights[i].FirstSeatsAvailable %></li>
+        <br>
+       
+        <a href="/updateflight?FlightNumber=<%= all_flights[i].FlightNumber %>">
+        <button style="color: green;">Update</button>
+        <a href="/list/delete?flight=<%=all_flights[i].FlightNumber%>"> 
+        <button style="color: red;" name="con" id="con" onclick="return confirm('Are you sure you want to delete this item?');" > Delete</button>
+        </a> 
         <hr><br>
     <% } %>
     </ul>
