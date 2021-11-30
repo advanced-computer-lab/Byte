@@ -13,7 +13,7 @@ router.get('/',(req,res)=>{
     console.log(flightnumber);
     res.render('updateflight.ejs',{flightnumber});
 });
-console.log("righttt");
+//console.log("righttt");
 router.post('/',function (req, res)
 
 {

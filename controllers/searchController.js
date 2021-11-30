@@ -36,15 +36,16 @@ router.post("/", jsonParser, function(req,res){
     var Flights;
     if (classRequested==="economy"){
       Flight.find({To:To, From:from,  FlightDate:FlightDate,EconomySeatsAvailable:{$gte:0} }).then( Flights => res.render('\searchResult', {Flights})).catch(console.error);
-    console.log("e");}
+    //console.log("e");
+    }
     else if (classRequested==="first"){
         Flight.find({To:To, From:from,  FlightDate:FlightDate,FirstSeatsAvailable:{$gte:0} }).then( Flights => res.render('\searchResult', {Flights})).catch(console.error);
 
-    console.log("g");
+    //console.log("g");
 }
     else{
         Flight.find({To:To, From:from,  FlightDate:FlightDate,BusinessSeatsAvailable:{$gte:0} }).then( Flights => res.render('\searchResult', {Flights})).catch(console.error);
-        console.log("p");
+        //console.log("p");
     }
 
 });

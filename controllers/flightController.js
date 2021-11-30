@@ -8,15 +8,17 @@ const Flight = require('../models/flight.js')
 router.use(express.urlencoded({extended: true})); 
 router.use(express.json());
 
-//returns all users in database
+//returns all flights in database
 const getAllFlights=(req,res)=>
 {
-    console.log("Im here");
     Flight.find({}).then((result)=>{
         res.header("Content-Type",'application/json');
         res.send(JSON.stringify(result, null, 4));
     });
 };
+
+
+
     //console.log(all_flights);
     //res.render('\list', {all_flights});
 
@@ -35,4 +37,8 @@ const getAllFlights=(req,res)=>
          
 });
 
-module.exports = {getAllFlights, router};
+module.exports = 
+{
+    getAllFlights, 
+    router
+};

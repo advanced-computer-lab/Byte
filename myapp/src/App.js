@@ -1,20 +1,24 @@
 import React from 'react';
-import axios from 'axios'
 import './App.css';
-import { Component, useState,useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom';
 import Header from './header';
 import FlightList from './allFlights';
+import ReservedFlights from './ReservedFlights';
+import MyFlights from './myFlights';
+import Home from './home';
 
 function App() {
-  return(
+  return (
     <div>
-    <Header />
-     <Routes>
-       <Route path='/list' element={<FlightList />}/>
-     </Routes>
-     </div>
-  )
+      <Header />
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/list' element={<FlightList />} />
+        <Route path='/reserved' element={<ReservedFlights />} />
+        <Route path='/myflights' element={<MyFlights />} />
+      </Routes>
+    </div>
+  );
 }
 
 export default App;
