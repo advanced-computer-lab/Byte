@@ -13,11 +13,10 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import {Link} from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 var id;
-var counter=1;
-
+var counter = 1;
 
 function DepartureFlights() {
   const [data, setData] = useState([]);
@@ -30,10 +29,7 @@ function DepartureFlights() {
       .then((json) => setData(json.data));
   }, []);
 
-
-
   const [show, setShow] = useState(false);
-
 
   const renderDepartureCard = (flight, index) => {
     return (
@@ -49,7 +45,13 @@ function DepartureFlights() {
             <Card.Title>Duration: {flight.duration}</Card.Title>
             <Card.Title>Bag Allowance: {flight.bag_allowance}</Card.Title>
 
-            <Button variant='outline-danger' onClick={() => {setShow(true); setFlight(flight._id);}}>
+            <Button
+              variant='outline-danger'
+              onClick={() => {
+                setShow(true);
+                setFlight(flight._id);
+              }}
+            >
               Select Flight
             </Button>
           </Card.Body>
@@ -66,13 +68,17 @@ function DepartureFlights() {
           <Modal.Header closeButton>
             <Modal.Title>Confirmation</Modal.Title>
           </Modal.Header>
-          <Modal.Body>
-            Are you sure you want to select this flight?
-          </Modal.Body>
+          <Modal.Body>Are you sure you want to select this flight?</Modal.Body>
           <Modal.Footer>
-          <Button variant='success' onClick={() => setShow(true)} >  
-          <Link component={Link} to={{pathname: `/departureCabins`, search: `:id=${flight_clicked}`}}  >
-              Yes
+            <Button variant='success' onClick={() => setShow(true)}>
+              <Link
+                component={Link}
+                to={{
+                  pathname: `/departureCabins`,
+                  search: `:id=${flight_clicked}`,
+                }}
+              >
+                Yes
               </Link>
             </Button>
             <Button variant='danger' onClick={() => setShow(false)}>

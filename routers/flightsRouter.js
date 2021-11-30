@@ -6,8 +6,6 @@ const flightRouter=express.Router();
 flightRouter.use(express.json());
 flightRouter.use(express.urlencoded({extended: false}));
 
-flightRouter.get('/list',flightController.getAllFlights);
-
 flightRouter.get('/departure',flightController.getDepartureFlights);
 flightRouter.get('/arrival',flightController.getArrivalFlights);
 flightRouter.get('/departureCabins',flightController.getDepartureCabins);

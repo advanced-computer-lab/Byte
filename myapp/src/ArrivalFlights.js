@@ -17,6 +17,8 @@ import {Link} from "react-router-dom";
 function ArrivalFlights() {
   const [data, setData] = useState([]);
 
+  const [flight_clicked, setFlight] = useState([]);
+
   useEffect(() => {
     axios
       .get('http://localhost:8000/flights/arrival')
@@ -40,7 +42,7 @@ function ArrivalFlights() {
             <Card.Title>Duration: {flight.duration}</Card.Title>
             <Card.Title>Bag Allowance: {flight.bag_allowance}</Card.Title>
 
-            <Button variant='outline-danger' onClick={() => setShow(true)}>
+            <Button variant='outline-danger' onClick={() => {setShow(true); setFlight(flight._id);}}>
               Select Flight
             </Button>
           </Card.Body>
@@ -61,10 +63,10 @@ function ArrivalFlights() {
             Are you sure you want to select this flight?
           </Modal.Body>
           <Modal.Footer>
-            <Button variant='success' >
-            <Link component={Link} to="/arrivalCabins" variant='success' onClick={() => setShow(true)}>
+          <Button variant='success' onClick={() => setShow(true)} >  
+          <Link component={Link} to={{pathname: `/departureCabins`, search: `:id=${flight_clicked}`}}  >
               Yes
-            </Link>
+              </Link>
             </Button>
             <Button variant='danger' onClick={() => setShow(false)}>
               No

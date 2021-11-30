@@ -17,10 +17,19 @@ function ArrivalCabins() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    axios
-      .get('http://localhost:8000/flights/arrivalCabins')
+    let search = window.location.search;
+    const id = search.split("=")[1];
+    //console.log("axios " + id);
+    axios({
+        method: 'get',
+        url: 'http://localhost:8000/flights/arrivalCabins',
+        headers: {},
+        params: {
+          n: id, // This is the body part
+        },
+      })
       .then((json) => setData(json.data));
-  }, []);
+  });
 
 
   const [show, setShow] = useState(false);
