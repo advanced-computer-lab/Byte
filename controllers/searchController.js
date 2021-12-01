@@ -11,13 +11,13 @@ app.set('view engine','ejs');
 app.use(express.urlencoded({extended: true})); 
 app.use(express.json());
 
-// form submission
-router.get('/',(req,res)=>{
-    res.render('search.ejs');
-});
+// // form submission
+// router.get('/',(req,res)=>{
+//     res.render('search.ejs');
+// });
 
 //inserts flights into dtatabase
-router.post("/", jsonParser, function(req,res){
+const search = (req,res) => {
     
     var from = req.body.from;
     var To = req.body.to;
@@ -48,6 +48,6 @@ router.post("/", jsonParser, function(req,res){
         //console.log("p");
     }
 
-});
+};
 
-module.exports = router;
+module.exports = {search};

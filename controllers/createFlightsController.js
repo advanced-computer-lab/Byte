@@ -1,45 +1,49 @@
 const express = require('express');
 const router = express.Router();
-const app = express();
+//const app = express();
 
 //models
 const Flight = require('../models/flight.js')
 
-//middlewares
-app.set('view engine','ejs');
-app.use(express.urlencoded({extended: true})); 
-app.use(express.json());
+// //middlewares
+// app.set('view engine','ejs');
+// app.use(express.urlencoded({extended: true})); 
+// app.use(express.json());
 
-// form submission
-router.get('/',(req,res)=>{
-    res.render('create.ejs');
-});
+// // form submission
+// router.get('/',(req,res)=>{
+//     res.render('create.ejs');
+// });
 
 //inserts flights into database
-router.post("/",function(req,res){
+const create = (req,res) =>{
+
+    console.log("backend: "+ req.body.from);
     
+    var number = req.body.number;
     var from = req.body.from;
-    var To = req.body.To;
-    var FlightDate = req.body.FlightDate;
-    var EconomySeatsAvailable = req.body.EconomySeatsAvailable;
-    var BusinessSeatsAvailable = req.body.BusinessSeatsAvailable;
-    var FirstSeatsAvailable = req.body.FirstSeatsAvailable;
-    var FlightNumber = req.body.FlightNumber;
+    var to = req.body.to;
+    var date = req.body.date;
+    var arrival = req.body.arrival;
+    var departure = req.body.departure;
+    var duration = req.body.duration;
+    var bag_allowance = req.body.bag_allowance;
 
     var new_flight={
-        From: from,
-        To:To,
-        FlightDate: FlightDate,
-        EconomySeatsAvailable:EconomySeatsAvailable,
-        BusinessSeatsAvailable: BusinessSeatsAvailable,
-        FirstSeatsAvailable:FirstSeatsAvailable,
-        FlightNumber: FlightNumber
+        number: number,
+        from: from,
+        to: to,
+        date: date,
+        arrival: arrival,
+        departure: departure,
+        duration: duration,
+        bag_allowance: bag_allowance,
         };
 
     Flight.insertMany(new_flight);
 
     res.send("Flight was created successfully!");
 
-});
+};
 
-module.exports = router;
+module.exports = {create};
