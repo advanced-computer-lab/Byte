@@ -19,7 +19,7 @@ const update = (req, res) => {
   console.log("Update Funstion: " + req.body.number);
 
   Flight.replaceOne(
-    { FlightNumber: req.body.number },
+    { number: parseInt(req.body.number) },
     {
       number: parseInt(req.body.number) ,
       from: (req.body.from).toString(),

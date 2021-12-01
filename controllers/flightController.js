@@ -20,7 +20,7 @@ const getAllFlights = (req, res) => {
 //res.render('\list', {all_flights});
 const fdelete = (req, res) => {
 
-  Flight.deleteOne({ FlightNumber: req.body.flight_number }, function (err) {
+  Flight.deleteOne({ number: req.body.flight_number }, function (err) {
     if (!err) {
       res.send('Deleted Successfully!');
     } else {

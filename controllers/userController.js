@@ -38,6 +38,7 @@ async function getAllReservations(req, res) {
 
   //get flights of bookings
   for (var i = 0; i < results.length; i++) {
+    console.log(results[i]);
     //console.log("rr "+results[i]);
     var t = {
       bnumber: 0,
