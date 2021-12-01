@@ -11,13 +11,13 @@ app.set('view engine','ejs');
 app.use(express.urlencoded({extended: true})); 
 app.use(express.json());
 
-// form submission
-router.get('/',(req,res)=>{
-    res.render('search.ejs');
-});
+// // form submission
+// router.get('/',(req,res)=>{
+//     res.render('search.ejs');
+// });
 
 //inserts flights into dtatabase
-router.post("/", jsonParser, function(req,res){
+const search = (req,res) => {
     
     var from = req.body.from;
     var To = req.body.to;
@@ -36,17 +36,18 @@ router.post("/", jsonParser, function(req,res){
     var Flights;
     if (classRequested==="economy"){
       Flight.find({To:To, From:from,  FlightDate:FlightDate,EconomySeatsAvailable:{$gte:0} }).then( Flights => res.render('\searchResult', {Flights})).catch(console.error);
-    console.log("e");}
+    //console.log("e");
+    }
     else if (classRequested==="first"){
         Flight.find({To:To, From:from,  FlightDate:FlightDate,FirstSeatsAvailable:{$gte:0} }).then( Flights => res.render('\searchResult', {Flights})).catch(console.error);
 
-    console.log("g");
+    //console.log("g");
 }
     else{
         Flight.find({To:To, From:from,  FlightDate:FlightDate,BusinessSeatsAvailable:{$gte:0} }).then( Flights => res.render('\searchResult', {Flights})).catch(console.error);
-        console.log("p");
+        //console.log("p");
     }
 
-});
+};
 
-module.exports = router;
+module.exports = {search};
