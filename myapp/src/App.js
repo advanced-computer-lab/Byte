@@ -17,6 +17,10 @@ import CreateFlights from './a_createFlight';
 import SearchFlight from './SearchFlight';
 import DepartureSearchResults from './DepartureSearchResults';
 import ReturnSearchResults from './ReturnSearchResults';
+import data from './mock-data.json';
+import ReadOnlyRow from './components/readonlyrow';
+import EditableRow from './components/EditableRow';
+import UserInfo from './components/userInfo';
 
 function App() {
   return (
@@ -40,6 +44,8 @@ function App() {
         <Route path='/arrival' element={<ArrivalFlights />} />
         <Route path='/departureCabins' element={<DepartureCabins />} />
         <Route path='/arrivalCabins' element={<ArrivalCabins />} />
+
+        <Route path='/user' element={<UserInfo />} />
       </Routes>
     </div>
   );
