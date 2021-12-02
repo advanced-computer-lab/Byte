@@ -1,7 +1,13 @@
 import React from 'react';
+import axios from 'axios';
 import './App.css';
+import { Component, useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Header from './header';
+import DepartureFlights from './DepartureFlights';
+import ArrivalFlights from './ArrivalFlights';
+import DepartureCabins from './DepartureCabins';
+import ArrivalCabins from './ArrivalCabins';
 import ReservedFlights from './ReservedFlights';
 import MyFlights from './myFlights';
 import Home from './home';
@@ -20,13 +26,20 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/reserved' element={<ReservedFlights />} />
         <Route path='/myflights' element={<MyFlights />} />
+
         <Route path='/admin' element={<AdminHome />} />
         <Route path='/admin/list' element={<Flights />} />
         <Route path='/admin/create' element={<CreateFlights />} />
         <Route path='/admin/search' element={<Home />} />
+
         <Route path='/search' element={<SearchFlight />} />
         <Route path='/departureResults' element={<DepartureSearchResults />} />
         <Route path='/returnResults' element={<ReturnSearchResults />} />
+
+        <Route path='/departure' element={<DepartureFlights />} />
+        <Route path='/arrival' element={<ArrivalFlights />} />
+        <Route path='/departureCabins' element={<DepartureCabins />} />
+        <Route path='/arrivalCabins' element={<ArrivalCabins />} />
       </Routes>
     </div>
   );
