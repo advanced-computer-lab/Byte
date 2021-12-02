@@ -10,15 +10,23 @@ const flightController = require('./controllers/flightController.js');
 const createFlightsController = require('./controllers/createFlightsController.js');
 
 
+const searchRouter = require('./routers/searchRouter.js');
+
 //connect Database
 connectDB();
 
 app.set('view engine','ejs');
 
+<<<<<<< Updated upstream
 //middlewares
 app.set('view engine','ejs');
 app.use(express.urlencoded({extended: true})); 
 app.use(express.json());
+=======
+//redirect to routers
+app.use('/flights',flightRouter);
+app.use('/search',searchRouter);
+>>>>>>> Stashed changes
 
 //Routes
 app.use('/user', userController);

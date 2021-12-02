@@ -1,0 +1,38 @@
+input[name=data], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  div {
+    margin: auto;
+    width: 40%;
+    border-radius: 5px;
+    border: 2px solid #ccc;
+    background-color: #f2f2f2;
+    padding: 20px;
+  }
+  .button2 {background-color: #008CBA;
+            color: white;} 
+  
+  #adultsNum{
+      margin: 15px 0 0 0;
+      display: inline-block;
+      float: left;
+      width: 30%
+  }
+  #childrenNum {
+      margin: 15px 0 0 0;
+      display: inline-block;
+      float: left;
+      width: 30%
+  }
+  #infantsNum {
+      margin: 15px 0 0 0;
+      display: inline-block;
+      float: left;
+      width: 30%
+  }
