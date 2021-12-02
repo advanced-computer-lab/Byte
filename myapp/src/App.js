@@ -8,6 +8,9 @@ import Home from './home';
 import Flights from './a_allFlights';
 import AdminHome from './admin';
 import CreateFlights from './a_createFlight';
+import SearchFlight from './SearchFlight';
+import DepartureSearchResults from './DepartureSearchResults';
+import ReturnSearchResults from './ReturnSearchResults';
 
 function App() {
   return (
@@ -21,6 +24,9 @@ function App() {
         <Route path='/admin/list' element={<Flights />} />
         <Route path='/admin/create' element={<CreateFlights />} />
         <Route path='/admin/search' element={<Home />} />
+        <Route path='/search' element={<SearchFlight />} />
+        <Route path='/departureResults' element={<DepartureSearchResults />} />
+        <Route path='/returnResults' element={<ReturnSearchResults />} />
       </Routes>
     </div>
   );

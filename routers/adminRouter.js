@@ -15,7 +15,7 @@ adminRouter.use(express.urlencoded({ extended: false }));
 
 adminRouter.get('/list', flightController.getAllFlights);
 adminRouter.post('/create', createFlightsController.create);
-adminRouter.get('/search', searchController.search);
+//adminRouter.get('/search', searchController.search);
 adminRouter.post('/update', updateflightController.update);
 adminRouter.post('/delete', flightController.fdelete);
 
