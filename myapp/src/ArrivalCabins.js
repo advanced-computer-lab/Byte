@@ -12,25 +12,26 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Link } from 'react-router-dom';
 
 function ArrivalCabins() {
   const [data, setData] = useState([]);
 
+  const [cabin_id, setCabin] = useState([]);
+
   useEffect(() => {
     let search = window.location.search;
-    const id = search.split("=")[1];
+    const id = search.split('=')[1];
     //console.log("axios " + id);
     axios({
-        method: 'get',
-        url: 'http://localhost:8000/flights/arrivalCabins',
-        headers: {},
-        params: {
-          n: id, // This is the body part
-        },
-      })
-      .then((json) => setData(json.data));
+      method: 'get',
+      url: 'http://localhost:8000/flights/arrivalCabins',
+      headers: {},
+      params: {
+        n: id, // This is the body part
+      },
+    }).then((json) => setData(json.data));
   });
-
 
   const [show, setShow] = useState(false);
 
@@ -42,7 +43,6 @@ function ArrivalCabins() {
             <Card.Title>Class: {cabin.class}</Card.Title>
             <Card.Title>Seats: {cabin.seats}</Card.Title>
             <Card.Title>Price: {cabin.price}</Card.Title>
-            
 
             <Button variant='outline-danger' onClick={() => setShow(true)}>
               Select Cabin
@@ -61,12 +61,24 @@ function ArrivalCabins() {
           <Modal.Header closeButton>
             <Modal.Title>Confirmation</Modal.Title>
           </Modal.Header>
-          <Modal.Body>
-            Are you sure you want to select this cabin?
-          </Modal.Body>
+          <Modal.Body>Are you sure you want to select this cabin?</Modal.Body>
           <Modal.Footer>
-            <Button variant='success' >
-              Yes
+            <Button
+              variant='success'
+              onClick={() => {
+                setShow(true);
+                setCabin(cabin.seats);
+              }}
+            >
+              <Link
+                component={Link}
+                to={{
+                  pathname: `/seats`,
+                  search: `:id=${cabin_id}`,
+                }}
+              >
+                Yes
+              </Link>
             </Button>
             <Button variant='danger' onClick={() => setShow(false)}>
               No

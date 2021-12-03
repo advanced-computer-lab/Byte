@@ -17,7 +17,7 @@ function AdminHome() {
           <Nav.Link href='/admin/list'>List All Flights</Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link href='/admin/search'>Search</Nav.Link>
+          <Nav.Link href='/search'>Search</Nav.Link>
         </Nav.Item>
         
       </Nav>

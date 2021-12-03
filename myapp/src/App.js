@@ -21,6 +21,7 @@ import data from './mock-data.json';
 import ReadOnlyRow from './components/readonlyrow';
 import EditableRow from './components/EditableRow';
 import UserInfo from './components/userInfo';
+import { Seats, Navigation } from './Component';
 
 function App() {
   return (
@@ -46,6 +47,8 @@ function App() {
         <Route path='/arrivalCabins' element={<ArrivalCabins />} />
 
         <Route path='/user' element={<UserInfo />} />
+
+        <Route path='/seats' element={<Seats />} />
       </Routes>
     </div>
   );

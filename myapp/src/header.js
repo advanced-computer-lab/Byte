@@ -22,6 +22,10 @@ function Header() {
               <NavDropdown title='Tools' id='basic-nav-dropdown'>
                 <NavDropdown.Item href='/reserved'>My Itinerary </NavDropdown.Item>
                 <NavDropdown.Item href='/myflights'>My Flights</NavDropdown.Item>
+                <NavDropdown.Item href='/departure'>Departure Flights</NavDropdown.Item>
+                <NavDropdown.Item href='/arrival'>Arrival Flights</NavDropdown.Item>
+                <NavDropdown.Item href='/search'>Search</NavDropdown.Item>
+                <NavDropdown.Item href='/user'>Edit My Info</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item href='' style={{ color: 'red' }}>
                   Logout

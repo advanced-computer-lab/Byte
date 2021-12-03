@@ -157,10 +157,53 @@ async function send(transport, mailOptions) {
   });
 }
 
+
+const updateuser = (req, res) => {
+  var user = 'menna';
+  console.log("Enteredd");
+  console.log(req);
+  User.updateMany (
+    
+    { username: (user).toString()}, {
+      first_name: (req.body.first_name).toString() ,
+      last_name: (req.body.last_name).toString(),
+      passport_number: (req.body.passport_number).toString(),
+      email: (req.body.email).toString(),
+      // username: (req.body.username).toString(),
+      // address: (req.body.address).toString(),
+      // code: parseInt(req.body.code),
+      // password: (req.body.password).toString(),
+      // type: parseInt(req.body.type)
+    }
+  ).then((result) => {
+    //res.send('User!');
+    console.log(result);
+  
+  
+  } );
+console.log("end");
+};
+const getuser = (req, res) => {
+  var user = 'menna';
+
+  var output = [];
+
+  //get user id
+  var uID;
+   User.find({ username: user }).then((result) => {
+    //uID = result[0]._id;
+    res.header('Content-Type', 'application/json');
+    res.send(JSON.stringify(result, null, 4));
+  });
+
+}
+
 module.exports = {
   router,
   getAllUsers,
   cancelReservation,
   getAllReservations,
   sendCancellationMail,
+  getuser,
+  updateuser
 };

@@ -12,9 +12,12 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Link } from 'react-router-dom';
 
 function DepartureCabins() {
   const [data, setData] = useState([]);
+
+  const [cabin_id, setCabin] = useState([]);
 
   useEffect(() => {
     let search = window.location.search;
@@ -44,7 +47,7 @@ function DepartureCabins() {
             <Card.Title>Price: {cabin.price}</Card.Title>
             
 
-            <Button variant='outline-danger' onClick={() => setShow(true)}>
+            <Button variant='outline-danger' onClick={() => {setShow(true); setCabin(cabin.seats);}}>
               Select Cabin
             </Button>
           </Card.Body>
@@ -65,8 +68,16 @@ function DepartureCabins() {
             Are you sure you want to select this cabin?
           </Modal.Body>
           <Modal.Footer>
-            <Button variant='success' >
-              Yes
+          <Button variant='success' onClick={() => setShow(true)}>
+              <Link
+                component={Link}
+                to={{
+                  pathname: `/seats`,
+                  search: `:id=${cabin_id}`,
+                }}
+              >
+                Yes
+              </Link>
             </Button>
             <Button variant='danger' onClick={() => setShow(false)}>
               No

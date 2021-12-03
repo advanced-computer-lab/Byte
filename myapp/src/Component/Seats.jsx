@@ -1,8 +1,14 @@
 import React, { Component } from 'react'
+import {
+  useState,
+  useEffect,
+  Fragment,
+} from 'react';
 import SeatPicker from 'react-seat-picker'
 import axios from 'axios';
-var num = 60 ;
+//var num = 60 ;
 function swwitch(num){
+
   switch(true){
     case  num ==60  :return(
         [[{id: 1, number: 1, isReserved: true, tooltip: 'Reserved For TSA'}, {id: 2, number: 2,  isReserved: true, tooltip: 'Reserved For TSA'}, null, {id: 3, number: '3', isReserved: true, orientation: 'east', tooltip: 'Reserved by Donald Duck'}, {id: 4, number: '4',isReserved: true, orientation: 'west',tooltip: 'Reserved by Daisy Duck'}, null, {id: 5, number: 5,tooltip: 'Cost: 80$'}, {id: 6, number: 6,tooltip: 'Cost: 80$'}],
@@ -154,6 +160,8 @@ class Seats extends React.Component {
         loading: false
       }
 
+
+
       addSeatCallback = ({ row, number, id }, addCb) => {
         this.setState({
           loading: true
@@ -197,6 +205,10 @@ class Seats extends React.Component {
 
 
     render() { 
+        let search = window.location.search;
+        const num = search.split("=")[1];
+
+
          const rows = 
          //conv(x);
         // [[{id: 1, number: 1, isReserved: true, tooltip: 'Reserved For TSA'}, {id: 2, number: 2,  isReserved: true, tooltip: 'Reserved For TSA'}, null, {id: 3, number: '3', isReserved: true, orientation: 'east', tooltip: 'Reserved by Buggz Buny'}, {id: 4, number: '4', orientation: 'west',tooltip : 'Cost: 80$'}, null, {id: 5, number: 5,tooltip : 'Cost: 80$'}, {id: 6, number: 6,tooltip : 'Cost: 80$'}],
@@ -210,7 +222,8 @@ class Seats extends React.Component {
         // [{id: 49, number: 1,tooltip : 'Cost: 80$'}, {id: 50, number: 2,tooltip : 'Cost: 80$'}, null, {id: 51, number: 3, isReserved: false, orientation: 'east',tooltip : 'Cost: 80$'}, {id: 52, number: '4', orientation: 'west',tooltip : 'Cost: 80$'}, null, {id: 53, number: 5,tooltip : 'Cost: 80$'}, {id: 54, number: 6,tooltip : 'Cost: 80$'}],
         // [{id: 55, number: 1, tooltip: 'Cost: 80$'}, {id: 56, number: 2,tooltip : 'Cost: 80$'}, null, {id: 57, number: 3, orientation: 'east',tooltip : 'Cost: 80$'}, {id: 58, number: '4', orientation: 'west',tooltip : 'Cost: 80$'}, null, {id: 58, number: 5,tooltip : 'Cost: 80$'}, {id: 59, number: 6,tooltip : 'Cost: 80$'}],
         // [null, null, null, null, {id: 60, number: '1', orientation: 'west',tooltip : 'Cost: 80$'}, null,null,null]]
-         swwitch(num)
+
+        swwitch(num)
         //<div>{this.switchcase}</div>
           //  [[{id: 1, number: 1, isReserved: true, tooltip: 'Reserved For TSA'}, {id: 2, number: 2,  isReserved: true, tooltip: 'Reserved For TSA'}, null, {id: 3, number: '3', isReserved: true, orientation: 'east', tooltip: 'Reserved by Bugzz Bunny'}, {id: 4, number: '4', orientation: 'west'}, null, {id: 5, number: 5}, {id: 6, number: 6}],
           //   [{id: 7, number: 1, isReserved: true, tooltip: 'Reserved '}, {id: 8, number: 2, isReserved: false,tooltip: 'Cost: 15$'}, null, {id: 9, number: '3', isReserved: true, orientation: 'east'}, {id: 10, number: '4', orientation: 'west'}, null, {id: 11, number: 5}, {id: 12, number: 6}],

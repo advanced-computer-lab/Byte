@@ -75,9 +75,6 @@ function ReturnSearchResults() {
       <>
         <Card key={index + 1} className='box'>
           <Card.Body key={index + 1}>
-            <Card.Title key={index + 2}>
-              Flight Number: {flight.number}
-            </Card.Title>
             <Card.Title key={index + 3}>from: {flight.from}</Card.Title>
             <Card.Title key={index + 4}>to: {flight.to}</Card.Title>
             <Card.Title key={index + 6}>

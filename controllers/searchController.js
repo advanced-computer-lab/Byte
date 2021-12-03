@@ -55,7 +55,7 @@ const searchFlightOp = (req, res) => {
         seats: { $gte: passengers - 1 },
         class: classCh,
       }).then((resultsz) => {
-        //console.log("price: "+parseInt(resultsz[0].price) * passengers);
+        console.log('price: ' + parseInt(resultsz[0].price) * passengers);
         t.price = (parseInt(resultsz[0].price) * passengers).toString();
       });
 
@@ -115,9 +115,9 @@ const searchFlightReturn = (req, res) => {
   var passengers = adults + children;
 
   Flight.find({
-    To: currentCountry,
-    From: destination,
-    FlightDate: returnDate,
+    to: currentCountry,
+    from: destination,
+    date: returnDate,
   }).then((result) => {
     returnflightWithoutClass = result;
     console.log(result[0].number);
