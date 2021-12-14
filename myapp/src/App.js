@@ -11,12 +11,15 @@ import ArrivalCabins from './ArrivalCabins';
 import ReservedFlights from './ReservedFlights';
 import MyFlights from './myFlights';
 import Home from './home';
+import Payment from './payment';
 import Flights from './a_allFlights';
 import AdminHome from './admin';
 import CreateFlights from './a_createFlight';
 import SearchFlight from './SearchFlight';
 import DepartureSearchResults from './DepartureSearchResults';
 import ReturnSearchResults from './ReturnSearchResults';
+import Login from './login';
+import Register from './register';
 import data from './mock-data.json';
 import ReadOnlyRow from './components/readonlyrow';
 import EditableRow from './components/EditableRow';
@@ -24,13 +27,19 @@ import UserInfo from './components/userInfo';
 import { Seats, Navigation } from './Component';
 
 function App() {
+  const [user, setLoginUser] = useState({});
   return (
     <div>
-      <Header />
       <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/reserved' element={<ReservedFlights />} />
-        <Route path='/myflights' element={<MyFlights />} />
+        <Route path='/' element={user && user._id ? <Home /> : <Login />} />
+        <Route
+          path='/reserved'
+          element={user && user._id ? <ReservedFlights /> : <Login />}
+        />
+        <Route
+          path='/myflights'
+          element={user && user._id ? <MyFlights /> : <Login />}
+        />
 
         <Route path='/admin' element={<AdminHome />} />
         <Route path='/admin/list' element={<Flights />} />
@@ -49,6 +58,11 @@ function App() {
         <Route path='/user' element={<UserInfo />} />
 
         <Route path='/seats' element={<Seats />} />
+
+        <Route path='/register' element={<Register />} />
+        <Route path='/login' element={<Login />} />
+
+        <Route path='/pay' element={<Payment />} />
       </Routes>
     </div>
   );

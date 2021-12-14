@@ -13,6 +13,7 @@ import Toast from 'react-bootstrap/Toast';
 import ToastContainer from 'react-bootstrap/ToastContainer';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import Header from './header';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function MyFlights() {
@@ -47,6 +48,7 @@ function MyFlights() {
   const renderCard = (flight, index) => {
     return (
       <>
+        <Header />
         <Card key={index + 1} className='box'>
           <Card.Body key={index + 1}>
             <Card.Title key={index + 2}>

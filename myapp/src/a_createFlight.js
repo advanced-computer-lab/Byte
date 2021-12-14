@@ -13,6 +13,7 @@ import Toast from 'react-bootstrap/Toast';
 import ToastContainer from 'react-bootstrap/ToastContainer';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import Header from './header';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -28,7 +29,7 @@ function CreateFlights() {
   const [bag_allowance, setBag] = useState([]);
 
   const createHandler = () => {
-    console.log("handler");
+    console.log('handler');
     //setShow(false);
     axios({
       method: 'post',
@@ -49,6 +50,7 @@ function CreateFlights() {
 
   return (
     <>
+      <Header />
       <h1>Admin - Create Flights</h1>
       <Form>
         <FloatingLabel

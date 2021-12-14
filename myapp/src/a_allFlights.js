@@ -15,6 +15,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
+import Header from './header';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Flights() {
@@ -81,6 +82,7 @@ function Flights() {
   const renderCard = (flight, index) => {
     return (
       <>
+        <Header />
         <Card key={index + 1} className='box'>
           <Card.Body key={index + 1}>
             <Card.Title key={index + 1}>
@@ -172,15 +174,36 @@ function Flights() {
           </Modal.Header>
           <Modal.Body key={index + 2}>
             <Form>
-              <FloatingLabel controlId='from' label='From' className='mb-3' onChange={e => {setFrom(e.target.value);}}>
+              <FloatingLabel
+                controlId='from'
+                label='From'
+                className='mb-3'
+                onChange={(e) => {
+                  setFrom(e.target.value);
+                }}
+              >
                 <Form.Control type='text' placeholder='From' required />
               </FloatingLabel>
 
-              <FloatingLabel controlId='to' label='To' className='mb-3' onChange={e => {setTo(e.target.value);}}>
+              <FloatingLabel
+                controlId='to'
+                label='To'
+                className='mb-3'
+                onChange={(e) => {
+                  setTo(e.target.value);
+                }}
+              >
                 <Form.Control type='text' placeholder='To' required />
               </FloatingLabel>
 
-              <FloatingLabel controlId='date' label='Date' className='mb-3' onChange={e => {setDate(e.target.value);}}>
+              <FloatingLabel
+                controlId='date'
+                label='Date'
+                className='mb-3'
+                onChange={(e) => {
+                  setDate(e.target.value);
+                }}
+              >
                 <Form.Control type='text' placeholder='Date' required />
               </FloatingLabel>
 
@@ -188,7 +211,9 @@ function Flights() {
                 controlId='arrival'
                 label='Arrival'
                 className='mb-3'
-                onChange={e => {setArrival(e.target.value);}}
+                onChange={(e) => {
+                  setArrival(e.target.value);
+                }}
               >
                 <Form.Control type='text' placeholder='Arrival' required />
               </FloatingLabel>
@@ -197,7 +222,9 @@ function Flights() {
                 controlId='departure'
                 label='Departure'
                 className='mb-3'
-                onChange={e => {setDeparture(e.target.value);}}
+                onChange={(e) => {
+                  setDeparture(e.target.value);
+                }}
               >
                 <Form.Control type='text' placeholder='Departure' required />
               </FloatingLabel>
@@ -206,7 +233,9 @@ function Flights() {
                 controlId='duration'
                 label='Duration'
                 className='mb-3'
-                onChange={e => {setDuration(e.target.value);}}
+                onChange={(e) => {
+                  setDuration(e.target.value);
+                }}
               >
                 <Form.Control type='text' placeholder='Duration' required />
               </FloatingLabel>
@@ -215,7 +244,9 @@ function Flights() {
                 controlId='bag'
                 label='Bag Allowance'
                 className='mb-3'
-                onChange={e => {setBag(e.target.value);}}
+                onChange={(e) => {
+                  setBag(e.target.value);
+                }}
               >
                 <Form.Control
                   type='text'

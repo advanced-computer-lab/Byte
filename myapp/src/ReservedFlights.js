@@ -13,6 +13,7 @@ import Toast from 'react-bootstrap/Toast';
 import ToastContainer from 'react-bootstrap/ToastContainer';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import Header from './header';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function ReservedFlights() {
@@ -47,6 +48,7 @@ function ReservedFlights() {
   const renderCard = (flight, index) => {
     return (
       <>
+        <Header />
         <Card key={index + 1} className='box'>
           <Card.Body key={index + 1}>
             <Card.Title key={index + 1}>
@@ -57,9 +59,15 @@ function ReservedFlights() {
             </Card.Title>
             <Card.Title key={index + 3}>from: {flight.from}</Card.Title>
             <Card.Title key={index + 4}>to: {flight.to}</Card.Title>
-            <Card.Title key={index + 6}>Arrival Time: {flight.arrival}</Card.Title>
-            <Card.Title key={index + 6}>Departure Time: {flight.departure}</Card.Title>
-            <Card.Title key={index + 6}>Seats: {flight.seat_number.toString()}</Card.Title>
+            <Card.Title key={index + 6}>
+              Arrival Time: {flight.arrival}
+            </Card.Title>
+            <Card.Title key={index + 6}>
+              Departure Time: {flight.departure}
+            </Card.Title>
+            <Card.Title key={index + 6}>
+              Seats: {flight.seat_number.toString()}
+            </Card.Title>
             <Card.Title key={index + 6}>Class: {flight.class}</Card.Title>
             <Card.Title key={index + 5}>date: {flight.date}</Card.Title>
             <Card.Title key={index + 6}>Price: {flight.price}</Card.Title>
