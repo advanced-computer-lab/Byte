@@ -14,6 +14,9 @@ const updateflightController=require('./controllers/updateflightController.js');
 const searchController=require('./controllers/searchController.js');
 
 const flightRouter = require('./routers/flightsRouter.js');
+const userRouter = require('./routers/userRouter.js');
+const searchRouter = require('./routers/searchRouter.js');
+const adminRouter = require('./routers/adminRouter.js');
 
 //connect Database
 connectDB();
@@ -28,6 +31,10 @@ app.use(cors());
 
 //redirect to routers
 app.use('/flights',flightRouter);
+app.use('/user', userRouter);
+app.use('/search',searchRouter);
+
+app.use('/admin',adminRouter);
 
 //Routes
 // router.get('/', (req, res) => {

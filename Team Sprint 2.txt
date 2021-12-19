@@ -1,0 +1,13 @@
+Team Members:
+Yomna Islam	46-13722	T-26
+Dinah Waref	46-18006	T-26
+Marwa Mohammed	46-5518		T-26
+Menna Mohammed	46-5183		T-26
+Nada Diaa	46-1376		T-22
+
+Division of Sprint #2:
+22,23,24,25 -> Dinah
+10,11,13,14,16 -> Yomna
+21,26 --> Menna
+17,18,19,20 -> Nada
+Search (5)-> Marwa

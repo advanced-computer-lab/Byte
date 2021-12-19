@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+mongoose.models = {};
+mongoose.modelSchemas = {};
 
-const cabinSchema = new Schema({
+const cabinSchema = new Schema(
+  {
     price: {
       type: Number,
       required: true,
@@ -12,13 +15,15 @@ const cabinSchema = new Schema({
     },
     seats: {
       type: Number,
-      required: true
+      required: true,
     },
     flightID: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Flight'
-    }, 
-  }, { timestamps: true });
-  
-  const Cabin = mongoose.model('Cabin', cabinSchema);
-  module.exports = Cabin;
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Flight',
+    },
+  },
+  { timestamps: true }
+);
+
+const Cabin = mongoose.model('Cabin', cabinSchema);
+module.exports = Cabin;
