@@ -4,6 +4,8 @@ const app = express();
 
 const Cabin = require('../models/Cabin.js');
 const Flight = require('../models/flight.js');
+//const Seats = require('../myapp/src/Component/Seats.jsx');
+//import {selectedSeats, noOfSeats} from "Seats.jsx";
 
 //middlewares
 router.use(express.urlencoded({ extended: true }));
@@ -81,6 +83,15 @@ const getArrivalCabins = (req, res) => {
   });
 };
 
+//returns selected flight number, cabin and seats selected
+const getSelected = (req, res) => {
+  const my_ID = req.query.n;
+  Cabin.find({ flightID: my_ID.toString() }).then((result) => {
+    res.header('Content-Type', 'application/json');
+    res.send(JSON.stringify(result, null, 4));
+  });
+};
+
 module.exports = {
   getAllFlights,
   router,
@@ -89,4 +100,5 @@ module.exports = {
   getArrivalFlights,
   getDepartureCabins,
   getArrivalCabins,
+  getSelected
 };

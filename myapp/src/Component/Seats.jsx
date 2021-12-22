@@ -7,6 +7,12 @@ import {
 import SeatPicker from 'react-seat-picker'
 import axios from 'axios';
 //var num = 60 ;
+
+//vars needed for summary
+var totalPrice = 0;
+var noOfSeats = 0;
+var seatsSelected = "";
+
 function swwitch(num){
 
   switch(true){
@@ -161,13 +167,16 @@ class Seats extends React.Component {
       }
 
 
-
       addSeatCallback = ({ row, number, id }, addCb) => {
         this.setState({
           loading: true
         }, async () => {
           await new Promise(resolve => setTimeout(resolve, 1500))
           console.log(`Added seat ${number}, row ${row}, id ${id}`)
+          seatsSelected += `Seat ${number}, row ${row}, id ${id}, `
+          noOfSeats +=1
+          console.log(seatsSelected)
+          console.log(noOfSeats)
           const newTooltip = `tooltip for id-${id} added by callback`
           addCb(row, number, id, newTooltip)
           this.setState({ loading: false })
@@ -284,5 +293,5 @@ class Seats extends React.Component {
   //  }
 
 }
- 
-export default Seats ;
+export default Seats;
+//export default {Seats, seatsSelected, noOfSeats} ;
