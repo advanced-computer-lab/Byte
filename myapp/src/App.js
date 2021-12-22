@@ -24,6 +24,7 @@ import EditableRow from './components/EditableRow';
 import UserInfo from './components/userInfo';
 import { Seats, Navigation } from './Component';
 import {Page, Cart} from './UserSummary';
+import UserInput from './UserInput';
 
 
 function App() {
@@ -52,6 +53,8 @@ function App() {
         <Route path='/user' element={<UserInfo />} />
 
         <Route path='/seats' element={<Seats />} />
+
+        <Route path='/userInput' element={<UserInput />} />
       </Routes>
 
       
