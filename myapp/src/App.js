@@ -25,6 +25,7 @@ import UserInfo from './components/userInfo';
 import { Seats, Navigation } from './Component';
 import {Page, Cart} from './UserSummary';
 import UserInput from './UserInput';
+import FlightSummary from './FlightSummary';
 
 
 function App() {
@@ -55,6 +56,7 @@ function App() {
         <Route path='/seats' element={<Seats />} />
 
         <Route path='/userInput' element={<UserInput />} />
+        <Route path='/flightSummary' element={<FlightSummary />} />
       </Routes>
 
       

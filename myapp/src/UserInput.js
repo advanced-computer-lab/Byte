@@ -88,7 +88,7 @@ function UserInput() {
   return (
     <div className="container mt-5 py-5">
       <h1>Travellers' Data</h1>
-      <p>Please input each traveller's personal information</p>
+      <p>Please input each traveller's personal information as shown in passport</p>
 
       {/* {JSON.stringify(form)} */}
 
