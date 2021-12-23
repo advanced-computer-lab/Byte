@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import axios from 'axios';
 import {
   componentDidMount,
@@ -17,20 +17,11 @@ import { Link } from 'react-router-dom';
 
 var id;
 var counter = 1;
-var flightData = '';
 
 function DepartureFlights() {
   const [data, setData] = useState([]);
 
   const [flight_clicked, setFlight] = useState([]);
-
-  //store selected flight data
-  const [flight_number, setNumber] = useState([]);
-  const [flight_from, setFrom] = useState([]);
-  const [flight_to, setTo] = useState([]);
-  const [flight_date, setDate] = useState([]);
-  const [flight_departure, setDeparture] = useState([]);
-  const [flight_arrival, setArrival] = useState([]);
 
   useEffect(() => {
     axios
@@ -41,7 +32,6 @@ function DepartureFlights() {
   const [show, setShow] = useState(false);
 
   const renderDepartureCard = (flight, index) => {
-    //flightData += {flight.number} + {flight.from}+ {flight.to}+ {flight.date}+ {flight.departure}+ {flight.arrival};
     return (
       <>
         <Card key={flight} className='box'>
@@ -60,13 +50,6 @@ function DepartureFlights() {
               onClick={() => {
                 setShow(true);
                 setFlight(flight._id);
-
-                setNumber(flight.number);
-                setFrom(flight.from);
-                setTo(flight.to);
-                setDate(flight.date);
-                setDeparture(flight.departure);
-                setArrival(flight.arrival);
               }}
             >
               Select Flight
@@ -91,15 +74,8 @@ function DepartureFlights() {
               <Link
                 component={Link}
                 to={{
-                  pathname: `/flightSummary`,
-                  //search: `:id=${flight_clicked}`,
-                  search: `:number: ${flight_number}
-                  :from=${flight_from}
-                  :to=${flight_to}
-                  :date=${flight_date}
-                  :departure=${flight_departure}
-                  :arrival= ${flight_arrival}
-                  `
+                  pathname: `/departureCabins`,
+                  search: `:id=${flight_clicked}`,
                 }}
               >
                 Yes

@@ -3,7 +3,6 @@ import axios from 'axios';
 import './App.css';
 import { Component, useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { CartProvider, useCart } from "react-use-cart";
 import Header from './header';
 import DepartureFlights from './DepartureFlights';
 import ArrivalFlights from './ArrivalFlights';
@@ -23,10 +22,6 @@ import ReadOnlyRow from './components/readonlyrow';
 import EditableRow from './components/EditableRow';
 import UserInfo from './components/userInfo';
 import { Seats, Navigation } from './Component';
-import {Page, Cart} from './UserSummary';
-import UserInput from './UserInput';
-import FlightSummary from './FlightSummary';
-
 
 function App() {
   return (
@@ -54,12 +49,7 @@ function App() {
         <Route path='/user' element={<UserInfo />} />
 
         <Route path='/seats' element={<Seats />} />
-
-        <Route path='/userInput' element={<UserInput />} />
-        <Route path='/flightSummary' element={<FlightSummary />} />
       </Routes>
-
-      
     </div>
   );
 }

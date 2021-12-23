@@ -36,24 +36,11 @@ function ArrivalCabins() {
   const [show, setShow] = useState(false);
 
   const renderArrivalCabinCard = (cabin, index) => {
-    //define cabin class
-    var cabinType = "";
-    if(cabin.class == 0){
-     cabinType = "First Class";
-    }
-    else{
-       if(cabin.class == 1){
-          cabinType = "Business Class";
-       }
-       else{
-          cabinType = "Economy Class";
-        }
-    }
     return (
       <>
         <Card key={cabin} className='box'>
           <Card.Body>
-            <Card.Title>Class: {cabinType}</Card.Title>
+            <Card.Title>Class: {cabin.class}</Card.Title>
             <Card.Title>Seats: {cabin.seats}</Card.Title>
             <Card.Title>Price: {cabin.price}</Card.Title>
 
