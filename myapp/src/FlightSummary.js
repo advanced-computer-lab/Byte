@@ -18,11 +18,11 @@ function FlightSummary() {
 
    const [data, setData] = useState([]);
 
-//   const [flight_from, setFrom] = useState([]);
-//   const [flight_to, setTo] = useState([]);
-//   const [flight_date, setDate] = useState([]);
-//   const [flight_depart, setDeparture] = useState([]);
-//   const [flight_arrive, setArrival] = useState([]);
+  const [flight_from, setFrom] = useState([]);
+  const [flight_to, setTo] = useState([]);
+  const [flight_date, setDate] = useState([]);
+  const [flight_depart, setDeparture] = useState([]);
+  const [flight_arrive, setArrival] = useState([]);
 
   useEffect(() => {
     let search = window.location.search;
@@ -31,17 +31,18 @@ function FlightSummary() {
     const date = (search.split("=")[3]).split("%")[0];
     const depart = (search.split("=")[4]).split("%")[0];
     const arrive = (search.split("=")[5]).split("%20")[1];
-    console.log("from " + from);
-    console.log("to " + to);
-    console.log("date " + date);
-    console.log("dep " + depart);
-    console.log("arr " + arrive);
 
-    // setFrom(from);
-    // setTo(to);
-    // setDate(date);
-    // setDeparture(depart);
-    // setArrival(arrive);
+    setFrom(from);
+    setTo(to);
+    setDate(date);
+    setDeparture(depart);
+    setArrival(arrive);
+    console.log("from " + flight_from);
+    console.log("to " + flight_to);
+    console.log("date " + flight_date);
+    console.log("dep " + flight_depart);
+    console.log("arr " + flight_arrive);
+
 
 
 //     axios({
@@ -70,25 +71,28 @@ function FlightSummary() {
     // console.log("date " + date);
     // console.log("dep " + depart);
     // console.log("arr " + arrive);
-
+  };
     return (
       <>
+      <div key='initkey'>
+        <h1>Flight Summary</h1>
+      </div>
         <Card className='box'>
           <Card.Body>
-            <Card.Title>From: {from}</Card.Title>
-            <Card.Title>To: {to}</Card.Title>
-            <Card.Title>Date: {date}</Card.Title>
-            <Card.Title>Departure: {depart}</Card.Title>
-            <Card.Title>Arrival: {arrive}</Card.Title>
+            <Card.Title>From: {flight_from}</Card.Title>
+            <Card.Title>To: {flight_to}</Card.Title>
+            <Card.Title>Date: {flight_date}</Card.Title>
+            <Card.Title>Departure: {flight_depart}</Card.Title>
+            <Card.Title>Arrival: {flight_arrive}</Card.Title>
             
-
+            <Button variant='outline-danger' onClick={() => {setShow(true);}}>
+              Select Different Flight
+            </Button>
             <Button variant='outline-danger' onClick={() => {setShow(true);}}>
               Proceed to Seat Picking
             </Button>
             {/* back to search/home page */}
-            {/* <Button variant='outline-danger' onClick={() => {setShow(true);}}>
-              Select Different Flight
-            </Button> */}
+           
           </Card.Body>
         </Card>
 
@@ -126,16 +130,16 @@ function FlightSummary() {
 
       </>
     );
-  };
+ 
 
-  return (
-    <>
-      <div key='initkey'>
-        <h1>Flight Summary</h1>
-      </div>
-      {data.map(renderFlightSummaryCard)}
-    </>
-  );
+  // return (
+  //   <>
+  //     <div key='initkey'>
+  //       <h1>Flight Summary</h1>
+  //     </div>
+  //     {/* {data.map(renderFlightSummaryCard)} */}
+  //   </>
+  // );
 }
 
 export default FlightSummary;
