@@ -212,7 +212,6 @@ class Seats extends React.Component {
       }
 
 
-
       addSeatCallback = ({ row, number, id }, addCb) => {
         this.setState({
           loading: true
@@ -346,5 +345,5 @@ class Seats extends React.Component {
     )
   }
 }
- 
-export default Seats ;
+export default Seats;
+//export default {Seats, seatsSelected, noOfSeats} ;
