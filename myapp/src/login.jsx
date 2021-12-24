@@ -5,6 +5,7 @@ import './mycss.css';
 
 function Login() {
   const navigate = useNavigate();
+  var refreshToken;
 
   function handleLogin(e) {
     e.preventDefault();
@@ -15,7 +16,7 @@ function Login() {
       password: form[1].value,
     };
 
-    console.log(user);
+    //console.log(user);
 
     axios({
       method: 'post',
@@ -24,25 +25,40 @@ function Login() {
         'Content-type': 'application/json',
       },
       params: JSON.stringify(user),
-    })
-      .then((res) => console.log('res: ' + JSON.stringify(res)))
-      .then((data) => {
-        console.log('data: ' + data);
-        //localStorage.setItem('token', data.token);
-      });
+    }).then((res) => {
+      refreshToken = JSON.stringify(res.data.refreshToken);
+      window.localStorage.setItem("token", refreshToken);
+      //console.log(token);
+      if (refreshToken) {
+        //console.log('here');
+        navigate('/search');
+      } else {
+        //print out wrong usernamee or password
+      }
+    });
   }
 
   useEffect(() => {
-    axios({
-      method: 'post',
-      url: 'http://localhost:8000/user/isUserAuth',
-      headers: {
-        'x-access-token': localStorage.getItem('token'),
-      },
-    }).then((res) => {
-      return res.data.isLoggedIn.isLoggedIn ? navigate('/home') : null;
-    });
-  }, []);
+    //console.log('tttt: ' + token);
+    // axios({
+    //   method: 'post',
+    //   url: 'http://localhost:8000/user/isUserAuth',
+    //   headers: {
+    //     'Content-type': 'application/json',
+    //     'authorization': window.localStorage.getItem("refreshToken"),
+    //   },
+    // }).then((res) => {
+    //   console.log("token: " + window.localStorage.getItem("refreshToken"))
+    //   //console.log('use eff res: ' + res.status);
+    //   //return res.data.isLoggedIn.isLoggedIn ? navigate('/home') : null;
+    // });
+    
+    //if user is logged in the i dont want him here again
+    //console.log("tttt" + localStorage.getItem('token'))
+    if(localStorage.getItem('token')){
+      navigate('/search');
+    }
+  }, );
 
   return (
     // <form onSubmit={(event) => handleLogin(event)}>

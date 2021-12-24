@@ -73,6 +73,8 @@ function SearchFlight() {
     console.log('searchButton: ' + currentCountry);
   }
 
+  //console.log("search token? " + localStorage.getItem('token'))
+
   return (
     <>
       <form class='Container'>

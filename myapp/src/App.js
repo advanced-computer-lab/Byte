@@ -30,8 +30,9 @@ function App() {
   const [user, setLoginUser] = useState({});
   return (
     <div>
+      <Header />
       <Routes>
-        <Route path='/' element={user && user._id ? <Home /> : <Login />} />
+        {/* <Route path='/' element={user && user._id ? <Home /> : <Login />} />
         <Route
           path='/reserved'
           element={user && user._id ? <ReservedFlights /> : <Login />}
@@ -39,7 +40,10 @@ function App() {
         <Route
           path='/myflights'
           element={user && user._id ? <MyFlights /> : <Login />}
-        />
+        /> */}
+
+        <Route path='/reserved' element={<ReservedFlights />} />
+        <Route path='/myflights' element={<MyFlights />} />
 
         <Route path='/admin' element={<AdminHome />} />
         <Route path='/admin/list' element={<Flights />} />

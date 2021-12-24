@@ -1,11 +1,14 @@
 import React from 'react';
 import Navbar from 'react-bootstrap/Navbar';
+import { useNavigate } from 'react-router';
 import Image from 'react-bootstrap/Image';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Container from 'react-bootstrap/Container';
 
 function Header() {
+  const navigate = useNavigate();
+
   return (
     <div className='row'>
       <div className='col-md-12'>
@@ -18,7 +21,7 @@ function Header() {
                 <Nav.Link href='/'>Home</Nav.Link>
               </Nav>
             </Navbar.Collapse>
-            <Navbar.Collapse className='justify-content-end'>
+            <Navbar.Collapse className={(localStorage.getItem('token'))? 'justify-content-end' : 'justify-content-end invisible'} display = "none">
               <NavDropdown title='Tools' id='basic-nav-dropdown'>
                 <NavDropdown.Item href='/reserved'>My Itinerary </NavDropdown.Item>
                 <NavDropdown.Item href='/myflights'>My Flights</NavDropdown.Item>
@@ -27,7 +30,7 @@ function Header() {
                 <NavDropdown.Item href='/search'>Search</NavDropdown.Item>
                 <NavDropdown.Item href='/user'>Edit My Info</NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item href='' style={{ color: 'red' }}>
+                <NavDropdown.Item href='' onClick={()=>{window.localStorage.removeItem('token');navigate('/login');}} style={{ color: 'red' }}>
                   Logout
                 </NavDropdown.Item>
               </NavDropdown>

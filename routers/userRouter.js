@@ -19,6 +19,6 @@ userRouter.post('/logout', userController.logout);
 userRouter.post('/pay', userController.pay);
 
 userRouter.get('/getUsername', userController.getUsername);
-userRouter.post('/isUserAuth', userController.verifyJWT);
+userRouter.post('/isUserAuth', userController.authenticateToken);
 
 module.exports = userRouter;

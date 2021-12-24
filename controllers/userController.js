@@ -5,6 +5,9 @@ var smtpTransport = require('nodemailer-smtp-transport');
 
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+require('dotenv').config();
+
+let refreshTokens = [];
 
 const stripe = require('stripe')(
   'sk_test_51K6CPuAyZ2iyoaqNnr5UVKKGLZggC4oOjPHVBHdYPYb0MwsOjTb3JqFvPuwIjKDldpHJI1Ou1jozBsAMNzeVo38i00fEY4ywDK'
@@ -244,7 +247,7 @@ const signin = (req, res) => {
   User.findOne({ username: userLoggingIn.username }).then((dbUser) => {
     //make sure user exists in the databse
     if (!dbUser) {
-      console.log('wrong username');
+      //console.log('wrong username');
       return res.json({
         //username doesnt exist
         message: 'Inavalid Username or Password',
@@ -255,32 +258,40 @@ const signin = (req, res) => {
       .then((isCorrect) => {
         if (isCorrect) {
           //correct password
-          console.log('correct');
+          //console.log('correct');
 
           const payload = {
             id: dbUser._id,
             username: dbUser.username,
           };
 
-          jwt.sign(
+          const accessToken = generateAccessToken(payload);
+          const refreshToken = jwt.sign(
             payload,
-            process.env.JWT_SECRET,
-            { expiresIn: 86400 },
-            (err, token) => {
-              if (err) {
-                return res.json({ message: err });
-              } else {
-                console.log('token: ' + token);
-                return res.json({
-                  message: 'Success',
-                  token: 'Bearer ' + token,
-                });
-              }
-            }
+            process.env.REFRESH_TOKEN_SECRET
           );
+          refreshTokens.push(refreshToken);
+          res.json({ accessToken: accessToken, refreshToken: refreshToken });
+
+          // jwt.sign(
+          //   payload,
+          //   process.env.JWT_SECRET,
+          //   { expiresIn: 86400 },
+          //   (err, token) => {
+          //     if (err) {
+          //       return res.json({ message: err });
+          //     } else {
+          //       console.log('token: ' + token);
+          //       return res.json({
+          //         message: 'Success',
+          //         token: 'Bearer ' + token,
+          //       });
+          //     }
+          //   }
+          // );
         } else {
           //wrong password
-          console.log('wrong password');
+          //console.log('wrong password');
           return res.json({
             message: 'Inavalid Username or Password',
           });
@@ -289,45 +300,67 @@ const signin = (req, res) => {
   });
 };
 
-function verifyJWT(req, res, next) {
-  //we get the token from the req header
-  //which we set it to the token in the frotend from the localstorage
-
-  console.log('Auth Function');
-
-  const token = req.headers['x-access-token']?.split(' ')[1];
-
-  //if a token really exists in the header
-  if (token) {
-    //we want to verify it's the same token we have stored for that user
-    jwt.verify(token, process.env.PASSPORTSECRET, (err, decoded) => {
-      //if couldnt verify then fail and dont go forwards
-      //isLoggedIn is what we'll use to allow routing in react router
-      if (err) {
-        res.setHeader('Content-Type', 'application/json');
-        return res.send(
-          JSON.stringify({
-            isLoggedIn: false,
-            message: 'Failed to Authenticate',
-          })
-        );
-      }
-      //else go ahead to the requested link
-      req.user = {};
-      req.user.id = decoded.id;
-      req.user.username = decoded.username;
-      next();
-    });
-  } else {
-    //No token in header
-    //console.log('No header');
-    res.setHeader('Content-Type', 'application/json');
-    res.send(
-      JSON.stringify({ isLoggedIn: false, message: 'Incorrect Token Given' })
-    );
-    //res.json({isLoggedIn: false, message: "Incorrect Token Given"});
-  }
+function generateAccessToken(user) {
+  return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '60s' });
 }
+
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers['authorization'];
+  //const authHeader = req.route[Symbol(kHeaders)].authorization;
+  //console.log(req.headers);
+  const token = authHeader && authHeader.split(' ')[1];
+  if (token == null) {
+    console.log('No Token found');
+    return res.sendStatus(401);
+  }
+
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+    console.log(err);
+    if (err) return res.sendStatus(403);
+    req.user = user;
+    next();
+  });
+}
+
+// function verifyJWT(req, res, next) {
+//   //we get the token from the req header
+//   //which we set it to the token in the frotend from the localstorage
+
+//   console.log('Auth Function');
+
+//   const token = req.headers['x-access-token']?.split(' ')[1];
+
+//   //if a token really exists in the header
+//   if (token) {
+//     //we want to verify it's the same token we have stored for that user
+//     jwt.verify(token, process.env.PASSPORTSECRET, (err, decoded) => {
+//       //if couldnt verify then fail and dont go forwards
+//       //isLoggedIn is what we'll use to allow routing in react router
+//       if (err) {
+//         res.setHeader('Content-Type', 'application/json');
+//         return res.send(
+//           JSON.stringify({
+//             isLoggedIn: false,
+//             message: 'Failed to Authenticate',
+//           })
+//         );
+//       }
+//       //else go ahead to the requested link
+//       req.user = {};
+//       req.user.id = decoded.id;
+//       req.user.username = decoded.username;
+//       next();
+//     });
+//   } else {
+//     //No token in header
+//     //console.log('No header');
+//     res.setHeader('Content-Type', 'application/json');
+//     res.send(
+//       JSON.stringify({ isLoggedIn: false, message: 'Incorrect Token Given' })
+//     );
+//     //res.json({isLoggedIn: false, message: "Incorrect Token Given"});
+//   }
+// }
 
 const getUsername = (req, res) => {
   res.json({ isLoggedIn: true, username: req.user.username });
@@ -336,7 +369,9 @@ const getUsername = (req, res) => {
 const logout = (req, res) => {
   //delete the token from the local storage
   //so the auth will fail and should redirect to login page
-  localStorage.removeItem('token');
+  //localStorage.removeItem('token');
+  refreshTokens = refreshTokens.filter((token) => token !== req.body.token);
+  res.sendStatus(204);
 };
 
 const pay = (req, res, next) => {
@@ -380,5 +415,5 @@ module.exports = {
   pay,
   logout,
   getUsername,
-  verifyJWT,
+  authenticateToken,
 };
