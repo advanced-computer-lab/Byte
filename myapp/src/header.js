@@ -12,7 +12,7 @@ function Header() {
   return (
     <div className='row'>
       <div className='col-md-12'>
-        <Navbar bg="dark" variant="dark" expand='lg' sticky='top'>
+        <Navbar bg='dark' variant='dark' expand='lg' sticky='top'>
           <Container>
             <Navbar.Brand href='/'>Byte</Navbar.Brand>
             <Navbar.Toggle aria-controls='basic-navbar-nav' />
@@ -21,16 +21,43 @@ function Header() {
                 <Nav.Link href='/'>Home</Nav.Link>
               </Nav>
             </Navbar.Collapse>
-            <Navbar.Collapse className={(localStorage.getItem('token'))? 'justify-content-end' : 'justify-content-end invisible'} display = "none">
-              <NavDropdown title='Tools' id='basic-nav-dropdown'>
-                <NavDropdown.Item href='/reserved'>My Itinerary </NavDropdown.Item>
-                <NavDropdown.Item href='/myflights'>My Flights</NavDropdown.Item>
-                <NavDropdown.Item href='/departure'>Departure Flights</NavDropdown.Item>
-                <NavDropdown.Item href='/arrival'>Arrival Flights</NavDropdown.Item>
-                <NavDropdown.Item href='/search'>Search</NavDropdown.Item>
-                <NavDropdown.Item href='/user'>Edit My Info</NavDropdown.Item>
+            <Navbar.Collapse
+              className={
+                localStorage.getItem('token')
+                  ? 'justify-content-end'
+                  : 'justify-content-end invisible'
+              }
+              display='none'
+            >
+              <NavDropdown
+                title='Menu'
+                style={{color: 'white'}}
+                id='basic-nav-dropdown'
+              >
+                <NavDropdown.Item href='/reserved'>
+                  My Itinerary{' '}
+                </NavDropdown.Item>
+                {/* <NavDropdown.Item href='/myflights'>
+                  My Flights
+                </NavDropdown.Item>
+                <NavDropdown.Item href='/departure'>
+                  Departure Flights
+                </NavDropdown.Item>
+                <NavDropdown.Item href='/arrival'>
+                  Arrival Flights
+                </NavDropdown.Item>
+                <NavDropdown.Item href='/search'>Search</NavDropdown.Item> */}
+                <NavDropdown.Item href='/user'>My Profile</NavDropdown.Item>
+                <NavDropdown.Item href='/changePass'>Change Password</NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item href='' onClick={()=>{window.localStorage.removeItem('token');navigate('/login');}} style={{ color: 'red' }}>
+                <NavDropdown.Item
+                  href=''
+                  onClick={() => {
+                    window.localStorage.removeItem('token');
+                    navigate('/login');
+                  }}
+                  style={{ color: 'red' }}
+                >
                   Logout
                 </NavDropdown.Item>
               </NavDropdown>

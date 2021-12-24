@@ -12,8 +12,8 @@ const EditableRow = ({
           type='text'
           required='required'
           placeholder='Enter your first name..'
-          name='firstname'
-          value={editFormData.firstname}
+          name='first_name'
+          value={editFormData.first_name}
           onChange={handleEditFormChange}
         ></input>
       </td>
@@ -22,8 +22,8 @@ const EditableRow = ({
           type='text'
           required='required'
           placeholder='Enter your last name..'
-          name='lastname'
-          value={editFormData.lastname}
+          name='last_name'
+          value={editFormData.last_name}
           onChange={handleEditFormChange}
         ></input>
       </td>
@@ -32,8 +32,8 @@ const EditableRow = ({
           type='text'
           required='required'
           placeholder='Enter your passport number..'
-          name='passportnumber'
-          value={editFormData.passportnumber}
+          name='passport_number'
+          value={editFormData.passport_number}
           onChange={handleEditFormChange}
         ></input>
       </td>
@@ -61,7 +61,7 @@ const EditableRow = ({
 </td> */}
 
       <td>
-        <button type='submit'>Save</button>
+        <button type='submit' onClick={()=>{window.location.reload();}}>Save</button>
         {/* <button type="button">Cancel</button> */}
       </td>
     </tr>

@@ -21,4 +21,6 @@ userRouter.post('/pay', userController.pay);
 userRouter.get('/getUsername', userController.getUsername);
 userRouter.post('/isUserAuth', userController.authenticateToken);
 
+userRouter.post('/changePass', userController.changePass);
+
 module.exports = userRouter;

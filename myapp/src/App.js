@@ -19,12 +19,15 @@ import SearchFlight from './SearchFlight';
 import DepartureSearchResults from './DepartureSearchResults';
 import ReturnSearchResults from './ReturnSearchResults';
 import Login from './login';
+import Password from './changePass';
 import Register from './register';
 import data from './mock-data.json';
 import ReadOnlyRow from './components/readonlyrow';
 import EditableRow from './components/EditableRow';
 import UserInfo from './components/userInfo';
 import { Seats, Navigation } from './Component';
+import UserInput from './UserInput';
+import FlightSummary from './FlightSummary';
 
 function App() {
   const [user, setLoginUser] = useState({});
@@ -44,6 +47,9 @@ function App() {
 
         <Route path='/reserved' element={<ReservedFlights />} />
         <Route path='/myflights' element={<MyFlights />} />
+        <Route path='/' element={<SearchFlight />} />
+
+        <Route path='/changePass' element={<Password />} />
 
         <Route path='/admin' element={<AdminHome />} />
         <Route path='/admin/list' element={<Flights />} />
@@ -67,6 +73,9 @@ function App() {
         <Route path='/login' element={<Login />} />
 
         <Route path='/pay' element={<Payment />} />
+
+        <Route path='/userInput' element={<UserInput />} />
+        <Route path='/flightSummary' element={<FlightSummary />} />
       </Routes>
     </div>
   );

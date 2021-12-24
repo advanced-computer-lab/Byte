@@ -1,0 +1,150 @@
+.searchInputs {
+    margin-top: 105px;
+    display: flex;
+  }
+  
+  .search input {
+    
+    display:flex; flex-direction:row;
+    background-color: white;
+    border: 0;
+    border-radius: 2px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    font-size: 10px;
+    padding: 10px;
+    height: 30px;
+    width: 200px;
+  }
+
+  .search{
+    border: 1px solid; 
+    padding-top: 10px;
+    margin-top: 40px;
+    height: 600px;
+    width: 550px;
+  }
+  .FromBar{
+    display:flex; flex-direction:row;
+    float:left;
+  }
+  .ToBar{
+    display:flex; flex-direction:row;
+
+    float:left;
+  }
+  .DatePicker{
+    margin-top: 10px;
+    display:flex; flex-direction:row;
+    float:left;
+
+  }
+
+  .adultsDiv{
+    margin-top: 10px;
+    display:flex; flex-direction:row;
+    float:left;
+
+  }
+  .childrenDiv{
+    margin-top: 10px;
+    display:flex; flex-direction:row;
+    float:left;
+
+  }
+  .classSelec{
+    position: relative;
+    margin-top: 10px;
+    float:down;
+    position: absolute;
+    bottom: 120px;
+    right:500px;
+
+  }
+  #classSelect{
+    position: absolute;
+    bottom: 300px;
+    right:710px;
+    display:flex; flex-direction:row;
+    background-color: white;
+    border: 0;
+    border-radius: 2px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    font-size: 10px;
+    padding: 10px;
+    height: 30px;
+    width: 200px;
+ 
+
+  }
+  #chooseClassLabel{
+    position: absolute;
+    bottom: 300px;
+    right:915px;  
+  }
+  .b{
+    margin-top: 10px;
+    display:flex; flex-direction:row;
+    
+    height: 40px;
+    width: 100px;
+    position: fixed;
+    bottom: 120px;
+    right:500px;
+    
+   
+
+  }
+  
+  .searchIcon {
+    height: 60px;
+    width: 50px;
+    background-color: white;
+    display: grid;
+    place-items: center;
+  }
+  
+  input:focus {
+    outline: none;
+  }
+  .searchIcon svg {
+    font-size: 35px;
+  }
+  
+  .dataResult {
+    margin-top: 5px;
+    width: 300px;
+    height: 200px;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    overflow: hidden;
+    overflow-y: auto;
+  }
+  
+  .dataResult::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .dataResult .dataItem {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    color: black;
+  }
+  
+  .dataItem p {
+    margin-left: 10px;
+  }
+  a {
+    text-decoration: none;
+  }
+  
+  a:hover {
+    background-color: lightgrey;
+  }
+  
+  #clearBtn {
+    cursor: pointer;
+  }

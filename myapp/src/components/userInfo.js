@@ -2,23 +2,28 @@ import React, { useState, useEffect, Fragment } from 'react';
 import axios from 'axios';
 import { Routes, Route } from 'react-router-dom';
 import data from '../mock-data.json';
-import * as ReactBootStrap from "react-bootstrap";
+import * as ReactBootStrap from 'react-bootstrap';
 import ReadOnlyRow from './readonlyrow';
 import EditableRow from './EditableRow';
 
 function UserInfo() {
-  console.log('User Infooo');
+  //console.log('User Infooo');
   const [data, setData] = useState([]);
   //const [userclicked, setUser] = useState([]);
 
-
   useEffect(() => {
-    console.log("Helloo");
-    axios
-      .get('http://localhost:8000/user/getuser')
-      .then((json) => setData(json.data));
+    //console.log("Helloo");
+    // axios
+    //   .get('http://localhost:8000/user/getuser')
+    //   .then((json) => setData(json.data));
+
+    axios({
+      url: 'http://localhost:8000/user/getuser',
+      method: 'GET',
+      headers: {authorization: localStorage.getItem('token')},
+    }).then((json) => {console.log(json) ; setData(json.data);});
   }, []);
-//nothing is affected
+  //nothing is affected
   const [editFormData, seteditFormData] = useState({
     // firstname: '',
     // lastname: '',
@@ -44,9 +49,9 @@ function UserInfo() {
     event.preventDefault();
     const editedcontact = {
       _id: editContactId,
-      first_name: editFormData.firstname,
-      last_name: editFormData.lastname,
-      passport_number: editFormData.passportnumber,
+      first_name: editFormData.first_name,
+      last_name: editFormData.last_name,
+      passport_number: editFormData.passport_number,
       email: editFormData.email,
       // username: editFormData.username,
       // address: editFormData.address,
@@ -56,20 +61,18 @@ function UserInfo() {
     };
     const newContacts = [...data];
 
-    const index = data.findIndex(
-      (contact) => contact._id === editContactId
-    );
+    const index = data.findIndex((contact) => contact._id === editContactId);
 
     newContacts[index] = editedcontact;
     setData(newContacts);
     axios({
       method: 'post',
       url: 'http://localhost:8000/user/updateinfo',
-      headers: {},
+      headers: {authorization: localStorage.getItem('token')},
       data: {
-        first_name: editFormData.firstname,
-        last_name: editFormData.lastname,
-        passport_number: editFormData.passportnumber,
+        first_name: editFormData.first_name,
+        last_name: editFormData.last_name,
+        passport_number: editFormData.passport_number,
         email: editFormData.email, // This is the body part
       },
     });
@@ -84,9 +87,6 @@ function UserInfo() {
       passport_number: contact.passport_number,
       email: contact.email,
 
-
-
-
       // username: contact.username,
       // address: contact.address,
       // code: contact.code,
@@ -100,13 +100,11 @@ function UserInfo() {
     setEditContactId(null);
   };
 
-
-
   return (
     <div>
       <div className='app-container'>
         <form onSubmit={handelEditFormSubmit}>
-          <ReactBootStrap.Table striped bordered hover> 
+          <ReactBootStrap.Table striped bordered hover>
             <tr>
               <th>FirstName</th>
               <th>LastName</th>
@@ -120,13 +118,9 @@ function UserInfo() {
               <th>Actions</th> */}
             </tr>
             <tbody>
-            
               {data.map((contact) => (
-                
                 <Fragment>
-                  
-                  {
-                  editContactId === contact.id ? (
+                  {editContactId === contact.id ? (
                     <EditableRow
                       editFormData={editFormData}
                       handleEditFormChange={handleEditFormChange}

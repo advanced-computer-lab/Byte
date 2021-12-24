@@ -56,6 +56,9 @@
   background-color: rgb(192, 45, 26);
   color: #fff;
 }
+a:link {
+  color: white;
+}
 
 /*Button Style */
 

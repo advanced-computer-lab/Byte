@@ -168,11 +168,24 @@ async function send(transport, mailOptions) {
 }
 
 const updateuser = (req, res) => {
-  var user = 'menna';
-  console.log('Enteredd');
-  console.log(req);
+  // var user = 'menna';
+  //console.log('Enteredd');
+  //console.log(req);
+  var my_user;
+
+  //console.log('jwt :' + req.headers['authorization'].replace(/['"]+/g, ''));
+  var token = req.headers['authorization'];
+  token = token.replace(/['"]+/g, '');
+
+  jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+    //console.log("error " + err);
+    if (err) return res.sendStatus(403);
+    my_user = user;
+    //next();
+  });
+
   User.updateMany(
-    { username: user.toString() },
+    { username: my_user.username.toString() },
     {
       first_name: req.body.first_name.toString(),
       last_name: req.body.last_name.toString(),
@@ -191,13 +204,26 @@ const updateuser = (req, res) => {
   console.log('end');
 };
 const getuser = (req, res) => {
-  var user = 'menna';
+  var my_user;
+
+  //console.log('jwt :' + req.headers['authorization'].replace(/['"]+/g, ''));
+  var token = req.headers['authorization'];
+  token = token.replace(/['"]+/g, '');
+
+  jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+    //console.log("error " + err);
+    if (err) return res.sendStatus(403);
+    my_user = user;
+    //next();
+  });
+
+  //console.log('user : ' + my_user.username);
 
   var output = [];
 
   //get user id
   var uID;
-  User.find({ username: user }).then((result) => {
+  User.find({ username: my_user.username }).then((result) => {
     //uID = result[0]._id;
     res.header('Content-Type', 'application/json');
     res.send(JSON.stringify(result, null, 4));
@@ -242,7 +268,7 @@ async function signup(req, res) {
 const signin = (req, res) => {
   //get user login data from req body
   const userLoggingIn = JSON.parse(req.query[0]);
-  console.log('logging in user: ' + userLoggingIn.username);
+  //console.log('logging in user: ' + userLoggingIn.username);
 
   User.findOne({ username: userLoggingIn.username }).then((dbUser) => {
     //make sure user exists in the databse
@@ -402,6 +428,74 @@ const pay = (req, res, next) => {
     });
 };
 
+async function changePass(req, res) {
+  var my_user;
+  var old = req.query.old_pass;
+  var neww = req.query.new_pass;
+  var neww2 = req.query.new_pass2;
+
+  console.log('IN CHNAGE PASSWORD BACKEND');
+  //console.log(res)
+
+  //console.log('jwt :' + req.headers['authorization'].replace(/['"]+/g, ''));
+  var token = req.headers['authorization'];
+  token = token.replace(/['"]+/g, '');
+
+  if(!(neww == neww2)){
+    return res.json({
+      //username doesnt exist
+      message: 'Passwords do not match',
+    });
+  }
+  //hash the new pass
+  neww = await bcrypt.hash(neww, 10);
+
+  jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+    //console.log("error " + err);
+    if (err) return res.sendStatus(403);
+    my_user = user;
+    //next();
+  });
+
+  User.findOne({ username: my_user.username }).then((dbUser) => {
+    //make sure user exists in the databse
+    if (!dbUser) {
+      //console.log('wrong username');
+      console.log('No User exists with this username');
+      return res.json({
+        //username doesnt exist
+        message: 'User doesnt exist',
+      });
+    }
+    bcrypt.compare(old, dbUser.password).then((isCorrect) => {
+      if (isCorrect) {
+        console.log('Old password Correct');
+        
+        //correct password
+        //change to new
+        User.updateMany(
+          { username: my_user.username.toString() },
+          {
+            password: neww,
+          }
+        );
+        return res.json({
+          message: 'Password Changed Successfully',
+        });
+
+        //res.json({ accessToken: accessToken, refreshToken: refreshToken });
+      } else {
+        //wrong password
+        //console.log('wrong password');
+        console.log('old password wrong');
+        return res.json({
+          message: 'Wrong Password',
+        });
+      }
+    });
+  });
+}
+
 module.exports = {
   router,
   getAllUsers,
@@ -416,4 +510,5 @@ module.exports = {
   logout,
   getUsername,
   authenticateToken,
+  changePass,
 };
