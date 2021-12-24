@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { useNavigate } from 'react-router';
 import axios from 'axios';
 import { Component, useState, useEffect } from 'react';
 import './App.css';
@@ -16,6 +17,7 @@ import './mycss.css';
 //import CloseIcon from "@material-ui/icons/Close";
 
 function SearchFlight() {
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
 
   const from = useRef();
@@ -24,7 +26,6 @@ function SearchFlight() {
   const returnDate = useRef();
   const adultNo = useRef();
   const childrenNo = useRef();
-  const infantsNo = useRef();
   const classChosen = useRef();
 
   const [currentCountry, setcurrentCountry] = useState([]);
@@ -81,13 +82,13 @@ function SearchFlight() {
     //   }
     // const depDate=leavingArray[2]+"-"+
 
-    // setcurrentCountry(from.current.value);
-    // setDestination(to.current.value);
-    // setLeavingDate(depDate.current.value);
-    // setRetDate(returnDate.current.value);
-    setAdults(adultNo.current.value);
-    setChildren(childrenNo.current.value);
-    setClassCh(classChosen.current.value);
+    setcurrentCountry(from.current);
+    setDestination(to.current);
+    setLeavingDate(depDate.current);
+    setRetDate(returnDate.current);
+    setAdults(adultNo.current);
+    setChildren(childrenNo.current);
+    setClassCh(classChosen.current);
     console.log('search button clicked!! yaaaaayyy');
     //let daatee = moment(depDate).format("DD-MM-YYYY");
     console.log(leavingDate);
@@ -107,7 +108,18 @@ function SearchFlight() {
             <div className='column'>
               <div className='form-group'>
                 <label>From</label>
-                <SearchBarFrom />
+                AirportInput("air1");
+                {/* <SearchBarFrom />
+                <select
+                  ref={classChosen}
+                  className='in'
+                  name='class'
+                  id='classSelect'
+                >
+                  <option value='0'>First class</option>
+                  <option value='1'>Business Class</option>
+                  <option value='2'>Economy Class</option>
+                </select> */}
               </div>
 
               <div className='form-group'>
@@ -179,10 +191,40 @@ function SearchFlight() {
                 />
               </div>
 
-
-              <div className = "form-group" style={{marginTop: "60px"}}>
-                <button type='submit' className='btn btn-primary btn-block '>
-                  Search
+              <div className='form-group' style={{ marginTop: '60px' }}>
+                <button
+                  // onClick={() => {
+                  //   navigate('/departureResults', {
+                  //     state: {
+                  //       from: currentCountry,
+                  //       to: destination,
+                  //       depDate: leavingDate,
+                  //       returnDate: retDate,
+                  //       adultNo: adults,
+                  //       childrenNo: children,
+                  //       classChosen: classCh,
+                  //     },
+                  //   });
+                  // }}
+                  type='submit'
+                  className='btn btn-primary btn-block '
+                >
+                  <Link
+                    // type='submit'
+                    component={Link}
+                    to={{
+                      pathname: `/departureResults`,
+                      search: `:from=${currentCountry}
+                         :to=${destination}
+                         :depDate=${leavingDate}
+                         :returnDate= ${retDate}
+                         :adultNo=${adults}
+                         :childrenNo=${children}
+                         :classChosen=${classCh}`,
+                    }}
+                  >
+                    Search
+                  </Link>
                 </button>
               </div>
             </div>
@@ -287,13 +329,13 @@ function SearchFlight() {
     //         >
     //           Search
     //         </Link>  */}
-    //     </button>
-    //   </div>
-    // </div>
+     //     </button>
+    //   </div> 
+     // </div> 
   );
 }
 
-export default SearchFlight;
+//export default SearchFlight;
 
 // function SearchFlight() {
 //     //for the country search with sujjestions
@@ -455,3 +497,5 @@ export default SearchFlight;
 //         </>
 //     )
 // }
+
+export default SearchFlight;

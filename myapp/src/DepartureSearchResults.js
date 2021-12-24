@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import props from 'prop-types';
 import {
   componentDidMount,
   Component,
@@ -31,15 +32,24 @@ function DepartureSearchResults() {
     let search = window.location.search;
     // console.log("data in dep Flights" + search.split('=')[1]);
     // setData(search.split('=')[1]);
-    console.log(search.split('='));
+    console.log(search);
     const currentCountry = search.split('=')[1].split(':')[0].split('%')[0];
     const destination = search.split('=')[2].split(':')[0].split('%')[0];
     const leavingDate = search.split('=')[3].split(':')[0].split('%')[0];
     const retDate = search.split('=')[4].split(':')[0].split('%')[0];
     const adults = search.split('=')[5].split(':')[0].split('%')[0];
     const children = search.split('=')[6].split(':')[0].split('%')[0];
-    const infants = search.split('=')[7].split(':')[0].split('%')[0];
-    const classCh = search.split('=')[8].split(':')[0].split('%')[0];
+    const classCh = search.split('=')[7].split(':')[0].split('%')[0];
+
+    // const currentCountry = this.props.location.state.from;
+    // const destination = props.location.state.to;
+    // const leavingDate = props.location.state.depDate;
+    // const retDate = props.location.state.returnDate;
+    // const adults = props.location.state.adultNo;
+    // const children = props.location.state.childrenNo;
+    // //const infants = props.location.state.userId;
+    // const classCh = props.location.state.classChosen;
+
     console.log('from: ' + currentCountry);
     console.log('to: ' + destination);
     axios({
@@ -53,7 +63,6 @@ function DepartureSearchResults() {
         returnDate: retDate,
         adultNo: adults,
         childrenNo: children,
-        infantsNo: infants,
         classChosen: classCh,
       },
     }).then((json) => setData(json.data));

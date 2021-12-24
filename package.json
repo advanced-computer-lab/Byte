@@ -22,6 +22,7 @@
     "@popperjs/core": "^2.11.0",
     "@stripe/react-stripe-js": "^1.6.0",
     "@stripe/stripe-js": "^1.22.0",
+    "airport-autocomplete-js": "^2.1.4",
     "axios": "^0.24.0",
     "bcrypt": "^5.0.1",
     "bcryptjs": "^2.4.3",
