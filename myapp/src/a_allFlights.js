@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router';
 import {
   componentDidMount,
   Component,
@@ -42,6 +43,33 @@ function Flights() {
       .then((json) => setData(json.data));
   }, []);
 
+  const navigate = useNavigate();
+  var flag = false;
+
+
+  useEffect(() => {
+    axios({
+      method: 'post',
+      url: 'http://localhost:8000/user/isAdmin',
+      headers: {
+        'authorization': window.localStorage.getItem("token"),
+      },
+    }).then((res) => {
+      console.log("response:" + res.data.message);
+      if(res.data.message === "false"){
+         flag = true;
+      }
+      var refreshToken = window.localStorage.getItem("token");
+      console.log("flag:" + flag)
+      //if logged in user is not admin so not allowed to be here
+      //OR not logged in redirect to search page
+      if(flag || !refreshToken){
+        navigate('/search');
+      }
+    });
+
+  }, );
+
   const deleteHandler = (n) => {
     //console.log("deleteHandle: (Flight Number) " + n);
     setShow(false);
@@ -82,7 +110,7 @@ function Flights() {
   const renderCard = (flight, index) => {
     return (
       <>
-        <Header />
+
         <Card key={index + 1} className='box'>
           <Card.Body key={index + 1}>
             <Card.Title key={index + 1}>

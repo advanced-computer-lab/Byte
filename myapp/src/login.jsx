@@ -34,6 +34,7 @@ function Login() {
         navigate('/search');
       } else {
         //print out wrong usernamee or password
+        alert(res.data.message);
       }
     });
   }

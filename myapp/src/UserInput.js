@@ -1,7 +1,22 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import './App.css';
 
 function UserInput() {
+  let search = window.location.search;
+  console.log(search);
+  const price = search.split('=')[1].split('%')[0];
+  const selected_seats = search.split('=%20')[1].split('%')[0];
+  const flight_number = search.split('=')[3].split('%')[0];
+  const no_Of_Seats = search.split('=')[4].split('%')[0];
+  const classV = search.split('=%20')[2].split('%')[0];
+
+  console.log('priceeeeeeeeeeeeeee ' + price);
+  console.log('selected_seats ' + selected_seats);
+  console.log('flight_number ' + flight_number);
+  console.log('noOfSeats ' + no_Of_Seats);
+  console.log('classV ' + classV);
+
   const [form, setForm] = useState([]);
   //assume 3 for now -> take from seats page
   var noOfSeats = 3;
@@ -195,6 +210,23 @@ function UserInput() {
 
         <button className='btn btn-primary mt-2' onClick={handleAddLink}>
           Add a Traveller
+        </button>
+        <button className='btn btn-success mt-2' style={{ marginLeft: '20px' }}>
+          <Link
+            style={{ color: 'white' }}
+            to={{
+              pathname: `/pay`,
+              search: `
+                  :price=${price}
+                  :selected= ${selected_seats}
+                  :fnumber=${flight_number}
+                  :no_of_seats=${no_Of_Seats}
+                  :class= ${classV}
+                  `,
+            }}
+          >
+            Proceed to Payment
+          </Link>
         </button>
       </form>
     </div>

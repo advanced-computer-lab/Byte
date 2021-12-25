@@ -20,6 +20,15 @@ function Header() {
               <Nav className='me-auto'>
                 <Nav.Link href='/'>Home</Nav.Link>
               </Nav>
+              <Nav
+                className={
+                  localStorage.getItem('token')
+                    ? 'me-auto invisible'
+                    : 'me-auto'
+                }
+              >
+                <Nav.Link href='/login'>Login</Nav.Link>
+              </Nav>
             </Navbar.Collapse>
             <Navbar.Collapse
               className={
@@ -29,11 +38,7 @@ function Header() {
               }
               display='none'
             >
-              <NavDropdown
-                title='Menu'
-                style={{color: 'white'}}
-                id='basic-nav-dropdown'
-              >
+              <NavDropdown title='Menu' id='basic-nav-dropdown'>
                 <NavDropdown.Item href='/reserved'>
                   My Itinerary{' '}
                 </NavDropdown.Item>
@@ -48,7 +53,9 @@ function Header() {
                 </NavDropdown.Item>
                 <NavDropdown.Item href='/search'>Search</NavDropdown.Item> */}
                 <NavDropdown.Item href='/user'>My Profile</NavDropdown.Item>
-                <NavDropdown.Item href='/changePass'>Change Password</NavDropdown.Item>
+                <NavDropdown.Item href='/changePass'>
+                  Change Password
+                </NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item
                   href=''

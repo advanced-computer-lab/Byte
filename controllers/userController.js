@@ -31,25 +31,41 @@ const getAllUsers = (req, res) => {
 //returns all reservations of a user
 async function getAllReservations(req, res) {
   //we need to get user here
-  var user = 'dinah';
+  //var user = 'dinah';
+  var user;
 
+  //console.log('jwt :' + req.headers['authorization'].replace(/['"]+/g, ''));
+  var token = req.headers['authorization'];
+  token = token.replace(/['"]+/g, '');
+
+  jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, (err, dbuser) => {
+    //console.log("error " + err);
+    if (err) return res.sendStatus(403);
+    user = dbuser;
+    //next();
+  });
+
+  console.log('username ' + user.username);
   var output = [];
 
   //get user id
   var uID;
-  await User.find({ username: user }).then((result) => {
+  await User.find({ username: user.username }).then((result) => {
     uID = result[0]._id;
   });
+
+  console.log('id ' + uID);
 
   //get bookings of user
   var results;
   await Booking.find({ userID: uID }).then((result) => {
+    console.log('Bookings ' + result);
     results = result;
   });
 
   //get flights of bookings
   for (var i = 0; i < results.length; i++) {
-    console.log(results[i]);
+    // console.log(results[i]);
     //console.log("rr "+results[i]);
     var t = {
       bnumber: 0,
@@ -67,9 +83,12 @@ async function getAllReservations(req, res) {
     t.price = results[i].price;
     t.seat_number = results[i].chosen_seats;
 
+    console.log('cabin ID ' + results[i].cabinID);
+
     await Cabin.find({ _id: results[i].cabinID.toString() }).then(
       (resultsz) => {
-        //console.log(resultsz);
+        console.log('cabin' + resultsz);
+        console.log(resultsz[0]);
         if (resultsz[0].class == 0) {
           t.class = 'First';
         } else {
@@ -87,6 +106,7 @@ async function getAllReservations(req, res) {
     //console.log(results[i].class)
 
     await Flight.find({ _id: results[i].flightID }).then((resultss) => {
+      console.log(resultss);
       t.fnumber = resultss[0].number;
       t.from = resultss[0].from;
       t.to = resultss[0].to;
@@ -157,6 +177,124 @@ async function sendCancellationMail(booking_number) {
 
 async function send(transport, mailOptions) {
   //console.log('I am send fun');
+
+  // send mail with defined transport object
+  await transport.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      return console.log(error);
+    }
+    console.log('Message sent: %s', info.messageId);
+  });
+}
+
+async function sendIten(req, res) {
+  //get username from token
+  //get user id and email from databse
+  //get user bookings from database
+  var user;
+
+  //console.log('jwt :' + req.headers['authorization'].replace(/['"]+/g, ''));
+  var token = req.headers['authorization'];
+  token = token.replace(/['"]+/g, '');
+
+  jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, (err, dbuser) => {
+    //console.log("error " + err);
+    if (err) return res.sendStatus(403);
+    user = dbuser;
+    //next();
+  });
+
+  var output = [];
+
+  //get user id
+  var uID;
+  var email;
+  await User.find({ username: user.username }).then((result) => {
+    uID = result[0]._id;
+    email = result[0].email;
+  });
+
+  //get bookings of user
+  var results;
+  await Booking.find({ userID: uID }).then((result) => {
+    results = result;
+  });
+
+  //get flights of bookings
+  for (var i = 0; i < results.length; i++) {
+    console.log(results[i]);
+    //console.log("rr "+results[i]);
+    var t = {
+      bnumber: 0,
+      fnumber: 0,
+      from: '',
+      to: '',
+      date: '',
+      price: '',
+      departure: '',
+      arrival: '',
+      class: '',
+      seat_number: [0],
+    };
+    t.bnumber = results[i].number;
+    t.price = results[i].price;
+    t.seat_number = results[i].chosen_seats;
+
+    await Cabin.find({ _id: results[i].cabinID.toString() }).then(
+      (resultsz) => {
+        //console.log(resultsz);
+        if (resultsz[0].class == 0) {
+          t.class = 'First';
+        } else {
+          if (resultsz[0].class == 1) {
+            t.class = 'Buisness';
+          } else {
+            if (resultsz[0].class == 2) {
+              t.class = 'Economy';
+            }
+          }
+        }
+      }
+    );
+
+    //console.log(results[i].class)
+
+    await Flight.find({ _id: results[i].flightID }).then((resultss) => {
+      t.fnumber = resultss[0].number;
+      t.from = resultss[0].from;
+      t.to = resultss[0].to;
+      t.date = resultss[0].date;
+      t.arrival = resultss[0].arrival;
+      t.departure = resultss[0].departure;
+      output.push(t);
+    });
+  }
+
+  //send email
+  var transport = nodemailer.createTransport(
+    smtpTransport({
+      host: 'smtp.mailtrap.io',
+      port: 587,
+      auth: {
+        user: '55fffd474bdfc1',
+        pass: '2994cb4fcca7ea',
+      },
+      secure: false,
+      //tls: {rejectUnauthorized: false}
+    })
+  );
+
+  console.log('send Iten function ' + email);
+  console.log('out ' + output.toString());
+
+  // //
+  var mailOptions = {
+    from: 'Admin <admin@airline.com>',
+    to: email.toString(),
+    subject: 'Itinerary mail',
+    text: 'Hey there,' + output.toString(),
+    html: '<b>Hey there! </b><br> ' + output.toString(),
+  };
 
   // send mail with defined transport object
   await transport.sendMail(mailOptions, (error, info) => {
@@ -268,12 +406,12 @@ async function signup(req, res) {
 const signin = (req, res) => {
   //get user login data from req body
   const userLoggingIn = JSON.parse(req.query[0]);
-  //console.log('logging in user: ' + userLoggingIn.username);
+  console.log('logging in user: ' + userLoggingIn.username);
 
   User.findOne({ username: userLoggingIn.username }).then((dbUser) => {
     //make sure user exists in the databse
     if (!dbUser) {
-      //console.log('wrong username');
+      console.log('wrong username');
       return res.json({
         //username doesnt exist
         message: 'Inavalid Username or Password',
@@ -284,7 +422,7 @@ const signin = (req, res) => {
       .then((isCorrect) => {
         if (isCorrect) {
           //correct password
-          //console.log('correct');
+          console.log('correct');
 
           const payload = {
             id: dbUser._id,
@@ -317,7 +455,7 @@ const signin = (req, res) => {
           // );
         } else {
           //wrong password
-          //console.log('wrong password');
+          console.log('wrong password');
           return res.json({
             message: 'Inavalid Username or Password',
           });
@@ -400,14 +538,95 @@ const logout = (req, res) => {
   res.sendStatus(204);
 };
 
-const pay = (req, res, next) => {
-  const { user, amount } = req.body;
+async function pay(req, res, next) {
+  console.log(req);
+  //get user from token
+  var my_user;
+
+  //console.log('jwt :' + req.headers['authorization'].replace(/['"]+/g, ''));
+  var token = req.headers['authorization'];
+  token = token.replace(/['"]+/g, '');
+
+  jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+    //console.log("error " + err);
+    if (err) return res.sendStatus(403);
+    my_user = user;
+    //next();
+  });
+  //get user email and id
+  await User.findOne({ username: my_user.username }).then((dbUser) => {
+    my_user = dbUser;
+  });
+  console.log('email ' + my_user.email);
+  console.log('id ' + my_user._id);
+
+  //from the sent body get flight number => from it we can get flight id
+  var flight_number = req.query.flight_number;
+  console.log('flight number ' + flight_number);
+
+  var flightID;
+  await Flight.findOne({ number: flight_number }).then((flight) => {
+    flightID = flight._id;
+  });
+  console.log('flight ID ' + flightID);
+
+  //from body get price/number of passengers / array of seats chosen / chose cabin /
+  var price = req.query.amount;
+  console.log('price ' + price);
+  var num_of_passengers = req.query.noOfSeats;
+  console.log('Number ' + num_of_passengers);
+  var array_of_seats = req.query.selected;
+  console.log('array ' + array_of_seats);
+  var cabin = req.query.class;
+  console.log('cabin class' + cabin);
+
+  //get cabin ID from cabin type and flight IDs
+  var cabinID;
+
+  if (cabin == 'first') {
+    cabin = '0';
+  } else {
+    if (cabin == 'business') {
+      cabin = '1';
+    } else {
+      if (cabin == 'economy') {
+        cabin = '2';
+      }
+    }
+  }
+  console.log('CABIN ' + cabin);
+
+  await Cabin.findOne({ flightID: flightID, class: parseInt(cabin) }).then(
+    (cabinRES) => {
+      cabinID = cabinRES._id;
+    }
+  );
+  console.log('cabin ID' + cabinID);
+
+  //create a unique booking number
+  var booking_number = parseInt(Math.random() * 100000);
+
+  //insert into booking table
+  const dbBooking = new Booking({
+    number : booking_number,
+    price: price,
+    num_of_passengers:num_of_passengers,
+    chosen_seats: array_of_seats,
+    flightID:flightID,
+    userID:my_user._id,
+    cabinID: cabinID
+
+  });
+  dbBooking.save();
+
+  //send payment email
+  //const { user, amount } = req.body;
   const idempotencyKey = uuidv4();
 
   return stripe.customers
     .create({
-      email: user.email,
-      source: user,
+      email: my_user.email,
+      source: my_user.toString(),
     })
     .then((customer) => {
       stripe.charges.create(
@@ -415,7 +634,7 @@ const pay = (req, res, next) => {
           amount: amount,
           currency: 'usd',
           customer: customer.id,
-          receipt_email: user.email,
+          receipt_email: my_user.email,
         },
         { idempotencyKey }
       );
@@ -426,7 +645,7 @@ const pay = (req, res, next) => {
     .catch((err) => {
       console.log(err);
     });
-};
+}
 
 async function changePass(req, res) {
   var my_user;
@@ -441,7 +660,7 @@ async function changePass(req, res) {
   var token = req.headers['authorization'];
   token = token.replace(/['"]+/g, '');
 
-  if(!(neww == neww2)){
+  if (!(neww == neww2)) {
     return res.json({
       //username doesnt exist
       message: 'Passwords do not match',
@@ -470,7 +689,7 @@ async function changePass(req, res) {
     bcrypt.compare(old, dbUser.password).then((isCorrect) => {
       if (isCorrect) {
         console.log('Old password Correct');
-        
+
         //correct password
         //change to new
         User.updateMany(
@@ -496,6 +715,33 @@ async function changePass(req, res) {
   });
 }
 
+function isAdmin(req, res) {
+  var my_user;
+  var token = req.headers['authorization'];
+  token = token.replace(/['"]+/g, '');
+
+  //console.log(token);
+
+  jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+    //console.log("error " + err);
+    if (err) return res.sendStatus(403);
+    my_user = user;
+    //next();
+  });
+
+  console.log(my_user.username);
+
+  if (my_user.username === 'admin') {
+    return res.json({
+      message: 'true',
+    });
+  } else {
+    return res.json({
+      message: 'false',
+    });
+  }
+}
+
 module.exports = {
   router,
   getAllUsers,
@@ -511,4 +757,6 @@ module.exports = {
   getUsername,
   authenticateToken,
   changePass,
+  isAdmin,
+  sendIten,
 };

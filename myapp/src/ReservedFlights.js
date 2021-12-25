@@ -26,9 +26,11 @@ function ReservedFlights() {
   const toggleShowA = () => setShowA(!showA);
 
   useEffect(() => {
-    axios
-      .get('http://localhost:8000/user/reservations')
-      .then((json) => setData(json.data));
+    axios({
+      method: 'GET',
+      url: 'http://localhost:8000/user/reservations',
+      headers: { authorization: localStorage.getItem('token') },
+    }).then((json) => setData(json.data));
   }, []);
 
   const deleteHandler = (n) => {
@@ -43,6 +45,15 @@ function ReservedFlights() {
       },
     });
   };
+
+  const handleSendEmail = () => {
+    axios({
+      method: 'post',
+      url: 'http://localhost:8000/user/sendIten',
+      headers: { authorization: localStorage.getItem('token') },
+    });
+  }
+
   const [show, setShow] = useState(false);
 
   const renderCard = (flight, index) => {
@@ -138,6 +149,11 @@ function ReservedFlights() {
         <h1>My Bookings</h1>
       </div>
       {data.map(renderCard)}
+      <Button
+        key={1111 + 1}
+        variant='success'
+        onClick={handleSendEmail}
+      >Send My Itinerary as Email</Button>
     </>
   );
 }

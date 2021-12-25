@@ -4,6 +4,7 @@ import SeatPicker from 'react-seat-picker';
 import axios from 'axios';
 import { Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router';
+import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
 //vars needed for summary
 var noOfSeats = 0;
@@ -20,9 +21,9 @@ var seatsSelected = '';
 <Card style={{ width: '18rem' }}>
   <Card.Body>
     <Card.Title>Flight Details</Card.Title>
-    <Card.Text> Flight Number : </Card.Text>
+    {/* <Card.Text> Flight Number :  </Card.Text> */}
     <Card.Text> From : </Card.Text>
-    <Card.Text> TO : </Card.Text>
+    <Card.Text> To : </Card.Text>
     <Card.Text> Class : </Card.Text>
     <Card.Link href='#'>Back</Card.Link>
   </Card.Body>
@@ -1220,9 +1221,9 @@ class Seats extends React.Component {
         await new Promise((resolve) => setTimeout(resolve, 1500));
         console.log(`Added seat ${number}, row ${row}, id ${id}`);
         //in addSeatsCallBack
-        seatsSelected += ` Seat ${number}, row ${row}, id ${id}, `;
+        seatsSelected += `${id},`;
         noOfSeats += 1;
-        console.log(seatsSelected);
+        console.log('SEATS ' + seatsSelected);
         console.log(noOfSeats);
 
         const newTooltip = `tooltip for id-${id} added by callback`;
@@ -1276,7 +1277,22 @@ class Seats extends React.Component {
 
   render() {
     let search = window.location.search;
-    const num = search.split('=')[1];
+    console.log(search);
+    const num = search.split('=%20')[1].split('%')[0];
+    const flight_from = search.split('=')[2].split('%')[0];
+    const flight_to = search.split('=')[3].split('%')[0];
+    const flight_date = search.split('=')[4].split('%')[0];
+    const classV = search.split('=')[5].split('%')[0];
+    const flight_number = search.split('=%20')[2].split('%')[0];
+    //console.log('CAPITAL' + search.split('=%20')[2].split('%')[0]);
+
+    //const price = search.split('=%20')[1].split('%')[0];;
+    console.log('from => ' + flight_from);
+    console.log('to => ' + flight_to);
+    console.log('date => ' + flight_date);
+    console.log('classV => ' + classV);
+    console.log('flight_number => ' + flight_number);
+
     var id = [8, 9, 10, 12, 13, 20];
     var rows = swwitch(num);
     var rowss = booked(id, rows);
@@ -1351,18 +1367,42 @@ class Seats extends React.Component {
           <Card bg='light' border='info ' style={{ width: '18rem' }}>
             <Card.Header>Flight Details</Card.Header>
             <Card.Body>
-              <Card.Text> Flight Number : </Card.Text>
-              <Card.Text> From : </Card.Text>
-              <Card.Text> TO : </Card.Text>
-              <Card.Text> Class : </Card.Text>
-              <Card.Text> No Of Seats : </Card.Text>
-              <Card.Text> Total : </Card.Text>
-              <Card.Link href='#'>Back</Card.Link>
-              <button
-                style={{ marginLeft: '80px' }}
-                className='btn btn-success '
+              <Card.Text> From : {flight_from}</Card.Text>
+              <Card.Text> To : {flight_to}</Card.Text>
+              <Card.Text> Class : {classV}</Card.Text>
+              <Card.Text> No Of Seats : {noOfSeats}</Card.Text>
+              <Card.Text> Total : {cost * noOfSeats}</Card.Text>
+              <Card.Link style={{ color: 'blue' }} href='/search'>
+                Back to Search
+              </Card.Link>
+              {/* <Button
+                onClick={() => {
+                  navigate(-1);
+                }}
+                key={999997}
+                variant='outline-secondary'
               >
-                Book
+                Go back
+              </Button> */}
+              <button
+                style={{ marginLeft: '10px' }}
+                className='btn btn-success'
+              >
+                <Link
+                  style={{ color: 'white' }}
+                  to={{
+                    pathname: `/userInput`,
+                    search: `
+                  :price=${parseInt(cost * noOfSeats)}
+                  :selected= ${seatsSelected}
+                  :fnumber=${flight_number}
+                  :no_of_seats=${noOfSeats}
+                  :class= ${classV}
+                  `,
+                  }}
+                >
+                  Book
+                </Link>
               </button>
             </Card.Body>
           </Card>

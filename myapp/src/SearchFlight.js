@@ -54,79 +54,70 @@ function SearchFlight() {
     });
   }
 
-  function searchButtonClicked() {
-    //currentCountry = from.current.value;
-    // const leavingArray = leavingDate.split(" ");
-    // const leavingMonth="Dec";
-    // switch (leavingArray[1]) {
-    //     case "Dec":
-    //       leavingMonth="12";
-    //       break;
-    //     case "":
-    //         leavingMonth="12";
-    //       break;
-    //     case 2:
-    //         leavingMonth="12";
-    //       break;
-    //     case 3:
-    //         leavingMonth="12";
-    //       break;
-    //     case 4:
-    //         leavingMonth="12";
-    //       break;
-    //     case 5:
-    //         leavingMonth="12";
-    //       break;
-    //     case 6:
-    //         leavingMonth="12"
-    //   }
-    // const depDate=leavingArray[2]+"-"+
 
-    setcurrentCountry(from.current);
-    setDestination(to.current);
-    setLeavingDate(depDate.current);
-    setRetDate(returnDate.current);
-    setAdults(adultNo.current);
-    setChildren(childrenNo.current);
-    setClassCh(classChosen.current);
-    console.log('search button clicked!! yaaaaayyy');
-    //let daatee = moment(depDate).format("DD-MM-YYYY");
-    console.log(leavingDate);
 
-    console.log('searchButton: ' + currentCountry);
-  }
+  //searchButtonClicked();
+
+  // setcurrentCountry('LAX');
+  // setDestination('JFK');
+  // setLeavingDate('22-1-2022');
+  // setRetDate('27-1-2022');
+  // setAdults(1);
+  // setChildren(0);
+  // setClassCh(0);
+
   const [startDate, setStartDate] = useState(new Date('12/11/2021'));
   const [endDate, setEndDate] = useState(new Date('1/1/2022'));
+  const [startDateSt, setStartDateSt] = useState([]);
+  const [endDateSt, setEndDateSt] = useState([]);
+  const [classV, setClassV] = useState([]);
 
   return (
     <div className='auth-wrapper center-screen'>
       <div className='auth-inner'>
-        <form onSubmit={searchButtonClicked}>
-          {/* <form onSubmit={(event) => handleRegister(event)}> */}
+        <form>
           <h3>Search Flight</h3>
           <div className='row'>
             <div className='column'>
               <div className='form-group'>
                 <label>From</label>
-                AirportInput("air1");
-                {/* <SearchBarFrom />
+                {/* AirportInput("air1"); */}
+                {/* <SearchBarFrom /> */}
                 <select
                   ref={classChosen}
                   className='in'
-                  name='class'
+                  name='from'
+                  onChange={(e) => setcurrentCountry(e.target.value)}
                   id='classSelect'
                 >
-                  <option value='0'>First class</option>
-                  <option value='1'>Business Class</option>
-                  <option value='2'>Economy Class</option>
-                </select> */}
+                  <option value='JFK' >NEW YORK - JFK</option>
+                  <option value='LAX'>LOS ANGELES - LAX</option>
+                  <option value='LHR'>Heathrow - LHR</option>
+                  <option value='CAI'selected="selected">CAIRO - CAI</option>
+                  <option value='DXB'>DUBAI - DXB</option>
+                  <option value='CDG'>PARIS - CDG</option>
+                  <option value='MUC'>MUNICH - MUC</option>
+                  <option value='RUH'>RIYADH - RUH</option>
+                  <option value='YYZ'>CANADA - YYZ</option>
+                  <option value='FRA'>FRANKFURT - FRA</option>
+                </select>
               </div>
 
               <div className='form-group'>
                 <label>Departure Date</label>
                 <DatePicker
-                  selected={leavingDate}
-                  onChange={(date) => setLeavingDate(date)}
+                  selected={startDate}
+                  className='in'
+                  onChange={(date) => {
+                    setStartDate(date);
+                    setStartDateSt(
+                      date.getDate() +
+                        '-' +
+                        parseInt(date.getMonth() + 1) +
+                        '-' +
+                        date.getFullYear()
+                    );
+                  }}
                   minDate={new Date()}
                   maxDate={new Date('10/10/2022')}
                   showDisabledMonthNavigation
@@ -136,13 +127,17 @@ function SearchFlight() {
               <div className='form-group'>
                 <label>Adult(s)</label>
                 <input
+                  type='number'
+                  placeholder='1'
+                  min='0'
+                  max='20'
                   className='in'
                   ref={adultNo}
                   id='adultsNo'
                   label='adult(s)'
                   variant='outlined'
                   required
-                  onChange={searchButtonClicked}
+                  onChange={(e) => setAdults(e.target.value)}
                 />
               </div>
 
@@ -151,10 +146,11 @@ function SearchFlight() {
                 <select
                   ref={classChosen}
                   className='in'
-                  name='class'
+                  name='cl'
+                  onChange={(e) => {setClassV(e.target.value); console.log("class changes => "+classV)}}
                   id='classSelect'
                 >
-                  <option value='0'>First class</option>
+                  <option value='0' selected="selected">First class</option>
                   <option value='1'>Business Class</option>
                   <option value='2'>Economy Class</option>
                 </select>
@@ -164,15 +160,43 @@ function SearchFlight() {
             <div className='column'>
               <div className='form-group'>
                 <label>To</label>
-                <SearchBarTo />
+                {/* <SearchBarTo /> */}
+                <select
+                  ref={classChosen}
+                  className='in'
+                  name='to'
+                  onChange={(e) => setDestination(e.target.value)}
+                  id='classSelect'
+                >
+                  <option value='JFK'>NEW YORK - JFK</option>
+                  <option value='LAX'>LOS ANGELES - LAX</option>
+                  <option value='LHR'>Heathrow - LHR</option>
+                  <option value='CAI'>CAIRO - CAI</option>
+                  <option value='DXB'>DUBAI - DXB</option>
+                  <option value='CDG'selected="selected">PARIS - CDG</option>
+                  <option value='MUC'>MUNICH - MUC</option>
+                  <option value='RUH'>RIYADH - RUH</option>
+                  <option value='YYZ'>CANADA - YYZ</option>
+                  <option value='FRA'>FRANKFURT - FRA</option>
+                </select>
               </div>
 
               <div className='form-group'>
                 <label>Return Date</label>
                 <DatePicker
-                  selected={retDate}
-                  onChange={(date) => setRetDate(date)}
-                  minDate={leavingDate}
+                  className='in'
+                  selected={endDate}
+                  onChange={(date) => {
+                    setEndDate(date);
+                    setEndDateSt(
+                      date.getDate() +
+                        '-' +
+                        parseInt(date.getMonth() + 1) +
+                        '-' +
+                        date.getFullYear()
+                    );
+                  }}
+                  minDate={startDate}
                   maxDate={new Date('10/10/2022')}
                   showDisabledMonthNavigation
                 />
@@ -181,13 +205,17 @@ function SearchFlight() {
               <div className='form-group'>
                 <label>Children</label>
                 <input
+                  type='number'
+                  placeholder='0'
+                  min='0'
+                  max='20'
                   className='in'
                   ref={childrenNo}
                   id='childrenNo'
                   label='child(ren)'
                   variant='outlined'
                   required
-                  onChange={searchButtonClicked}
+                  onChange={(e) => setChildren(e.target.value)}
                 />
               </div>
 
@@ -212,15 +240,16 @@ function SearchFlight() {
                   <Link
                     // type='submit'
                     component={Link}
+                    style={{ color: 'white' }}
                     to={{
                       pathname: `/departureResults`,
                       search: `:from=${currentCountry}
                          :to=${destination}
-                         :depDate=${leavingDate}
-                         :returnDate= ${retDate}
+                         :depDate=${startDateSt}
+                         :returnDate= ${endDateSt}
                          :adultNo=${adults}
                          :childrenNo=${children}
-                         :classChosen=${classCh}`,
+                         :classChosen=${classV}`,
                     }}
                   >
                     Search
@@ -329,9 +358,9 @@ function SearchFlight() {
     //         >
     //           Search
     //         </Link>  */}
-     //     </button>
-    //   </div> 
-     // </div> 
+    //     </button>
+    //   </div>
+    // </div>
   );
 }
 

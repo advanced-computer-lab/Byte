@@ -7,7 +7,6 @@ import Slider from './slider';
 function Home() {
   return (
     <>
-      <Header />
       <div className='Container'>
         <Slider />
       </div>

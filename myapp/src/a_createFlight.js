@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router';
 import {
   componentDidMount,
   Component,
@@ -48,9 +49,36 @@ function CreateFlights() {
     });
   };
 
+  const navigate = useNavigate();
+  var flag = false;
+
+
+  useEffect(() => {
+    axios({
+      method: 'post',
+      url: 'http://localhost:8000/user/isAdmin',
+      headers: {
+        'authorization': window.localStorage.getItem("token"),
+      },
+    }).then((res) => {
+      console.log("response:" + res.data.message);
+      if(res.data.message === "false"){
+         flag = true;
+      }
+      var refreshToken = window.localStorage.getItem("token");
+      console.log("flag:" + flag)
+      //if logged in user is not admin so not allowed to be here
+      //OR not logged in redirect to search page
+      if(flag || !refreshToken){
+        navigate('/search');
+      }
+    });
+
+  }, );
+
   return (
     <>
-      <Header />
+
       <h1>Admin - Create Flights</h1>
       <Form>
         <FloatingLabel

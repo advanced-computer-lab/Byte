@@ -22,5 +22,8 @@ userRouter.get('/getUsername', userController.getUsername);
 userRouter.post('/isUserAuth', userController.authenticateToken);
 
 userRouter.post('/changePass', userController.changePass);
+userRouter.post('/isAdmin', userController.isAdmin);
+
+userRouter.post('/sendIten', userController.sendIten);
 
 module.exports = userRouter;

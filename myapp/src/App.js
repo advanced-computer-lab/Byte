@@ -28,6 +28,7 @@ import UserInfo from './components/userInfo';
 import { Seats, Navigation } from './Component';
 import UserInput from './UserInput';
 import FlightSummary from './FlightSummary';
+import Confirm from './confirm';
 
 function App() {
   const [user, setLoginUser] = useState({});
@@ -73,6 +74,7 @@ function App() {
         <Route path='/login' element={<Login />} />
 
         <Route path='/pay' element={<Payment />} />
+        <Route path='/success' element={<Confirm />} />
 
         <Route path='/userInput' element={<UserInput />} />
         <Route path='/flightSummary' element={<FlightSummary />} />

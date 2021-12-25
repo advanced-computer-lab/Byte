@@ -10,7 +10,7 @@ const Cabin = require('../models/cabin.js');
 router.use(express.urlencoded({ extended: true }));
 router.use(express.json());
 
-const searchFlightOp = (req, res) => {
+async function searchFlightOp(req, res) {
   //console.log(req);
   //output
   var searchResultFlights = [];
@@ -24,77 +24,89 @@ const searchFlightOp = (req, res) => {
   var classCh = req.query.classChosen;
   var passengers = parseInt(adults) + parseInt(children);
 
-  console.log('Backend(from): ' + destination);
+  var flight_no = req.query.number;
+  console.log('FLIGHTTTTTT ', req.query);
+
+  console.log('Backend(from): ' + currentCountry);
+  console.log('Backend(to): ' + destination);
+  console.log('Backend(date): ' + departureDate);
+  console.log('Backend(adults): ' + adults);
+  console.log('Backend(children): ' + children);
+  console.log('Backend(classCh): ' + classCh);
 
   var flightWithoutClass;
 
-  Flight.find({
+  await Flight.find({
     to: destination,
     from: currentCountry,
     date: departureDate,
   }).then((result) => {
-    //console.log(result);
+    console.log(result);
     flightWithoutClass = result;
-    for (var i = 0; i < flightWithoutClass.length; i++) {
-      var t = {
-        flightnumber: 0,
-        from: '',
-        to: '',
-        date: '',
-        price: '',
-        departure: '',
-        arrival: '',
-        duration: '',
-        cabinClass: '',
-      };
-
-      var flightID = flightWithoutClass[i]._id;
-
-      Cabin.find({
-        flightID: flightID.toString(),
-        seats: { $gte: passengers - 1 },
-        class: classCh,
-      }).then((resultsz) => {
-        console.log('price: ' + parseInt(resultsz[0].price) * passengers);
-        t.price = (parseInt(resultsz[0].price) * passengers).toString();
-      });
-
-      t.flightnumber = flightWithoutClass[i].number;
-      t.from = flightWithoutClass[i].from;
-      t.to = flightWithoutClass[i].to;
-      t.date = flightWithoutClass[i].date;
-      t.arrival = flightWithoutClass[i].arrival;
-      t.departure = flightWithoutClass[i].departure;
-
-      if (classCh == '0') {
-        t.cabinClass = 'first class';
-      } else if (classCh == '1') {
-        t.cabinClass = 'Bussiness class';
-      } else {
-        t.cabinClass = 'economy class';
-      }
-
-      //console.log('backend (flightID): ' + flightID);
-      //console.log('backend (class): ' + classCh);
-      //console.log('backend (passengers): ' + passengers);
-
-      searchResultFlights.push(t);
-
-      // Flight.find({ _id: flightID.toString() }).then((resultss) => {
-      //   console.log(resultss);
-      //   t.flightnumber = resultss[0].number;
-      //   t.from = resultss[0].from;
-      //   t.to = resultss[0].to;
-      //   t.date = resultss[0].date;
-      //   t.arrival = resultss[0].arrival;
-      //   t.departure = resultss[0].departure;
-      //   searchResultFlights.push(t);
-      // });
-    }
-    res.header('Content-Type', 'application/json');
-    res.send(JSON.stringify(searchResultFlights, null, 4));
   });
-};
+  for (var i = 0; i < flightWithoutClass.length; i++) {
+    var t = {
+      flightnumber: 0,
+      from: '',
+      to: '',
+      date: '',
+      price: '',
+      departure: '',
+      arrival: '',
+      duration: '',
+      cabinClass: '',
+      seats: 0,
+    };
+
+    var flightID = flightWithoutClass[i]._id;
+
+    await Cabin.find({
+      flightID: flightID.toString(),
+      seats: { $gte: passengers - 1 },
+      class: classCh,
+    }).then((resultsz) => {
+      console.log('price: ' + parseInt(resultsz[0].price) * passengers);
+      t.seats = resultsz[0].seats;
+      t.price = (parseInt(resultsz[0].price) * passengers).toString();
+    });
+
+    t.flightnumber = flightWithoutClass[i].number;
+    console.log("FFFFFFFFFFFFFFFFFFFFF" +  t.flightnumber );
+    t.from = flightWithoutClass[i].from;
+    t.to = flightWithoutClass[i].to;
+    t.date = flightWithoutClass[i].date;
+    t.arrival = flightWithoutClass[i].arrival;
+    t.departure = flightWithoutClass[i].departure;
+
+    if (classCh == '0') {
+      t.cabinClass = 'first class';
+    } else if (classCh == '1') {
+      t.cabinClass = 'Bussiness class';
+    } else {
+      t.cabinClass = 'economy class';
+    }
+
+    //console.log('backend (flightID): ' + flightID);
+    //console.log('backend (class): ' + classCh);
+    //console.log('backend (passengers): ' + passengers);
+    console.log(t);
+    searchResultFlights.push(t);
+
+    // Flight.find({ _id: flightID.toString() }).then((resultss) => {
+    //   console.log(resultss);
+    //   t.flightnumber = resultss[0].number;
+    //   t.from = resultss[0].from;
+    //   t.to = resultss[0].to;
+    //   t.date = resultss[0].date;
+    //   t.arrival = resultss[0].arrival;
+    //   t.departure = resultss[0].departure;
+    //   searchResultFlights.push(t);
+    // });
+  }
+  console.log('finished');
+  res.header('Content-Type', 'application/json');
+  res.send(JSON.stringify(searchResultFlights, null, 4));
+}
 
 const searchFlightReturn = (req, res) => {
   console.log(req.query.date);
