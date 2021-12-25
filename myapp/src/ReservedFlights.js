@@ -13,15 +13,26 @@ import Toast from 'react-bootstrap/Toast';
 import ToastContainer from 'react-bootstrap/ToastContainer';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import { useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
 import Header from './header';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function ReservedFlights() {
   const [booking_clicked, setBooking] = useState([]);
-
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
 
   const [showA, setShowA] = useState(false);
+
+  const [flight_from, setFrom] = useState([]);
+  const [flight_to, setTo] = useState([]);
+  const [flight_date, setDate] = useState([]);
+  const [flight_depart, setDeparture] = useState([]);
+  const [flight_arrive, setArrival] = useState([]);
+  const [flight_seats, setSeats] = useState([]);
+  const [flight_number, setNumber] = useState([]);
+  const [flight_class, setClass] = useState([]);
 
   const toggleShowA = () => setShowA(!showA);
 
@@ -52,14 +63,13 @@ function ReservedFlights() {
       url: 'http://localhost:8000/user/sendIten',
       headers: { authorization: localStorage.getItem('token') },
     });
-  }
+  };
 
   const [show, setShow] = useState(false);
 
   const renderCard = (flight, index) => {
     return (
       <>
-        <Header />
         <Card key={index + 1} className='box'>
           <Card.Body key={index + 1}>
             <Card.Title key={index + 1}>
@@ -70,11 +80,12 @@ function ReservedFlights() {
             </Card.Title>
             <Card.Title key={index + 3}>from: {flight.from}</Card.Title>
             <Card.Title key={index + 4}>to: {flight.to}</Card.Title>
-            <Card.Title key={index + 6}>
-              Arrival Time: {flight.arrival}
-            </Card.Title>
+
             <Card.Title key={index + 6}>
               Departure Time: {flight.departure}
+            </Card.Title>
+            <Card.Title key={index + 6}>
+              Arrival Time: {flight.arrival}
             </Card.Title>
             <Card.Title key={index + 6}>
               Seats: {flight.seat_number.toString()}
@@ -91,6 +102,56 @@ function ReservedFlights() {
               }}
             >
               Cancel Reservation
+            </Button>
+            <Button
+              key={index + 7}
+              variant='outline-secondary'
+              style={{ marginLeft: '10px' }}
+              onClick={() => {
+                setShow(true);
+                //</Card.Body>setFlight(flight._id);
+
+                setFrom(flight.from);
+                setTo(flight.to);
+                setDate(flight.date);
+                setDeparture(flight.departure);
+                setArrival(flight.arrival);
+                setSeats(flight.seat_number);
+                setNumber(flight.fnumber);
+                setClass(flight.class);
+              }}
+              //navigate('/')
+            >
+              <Link
+                component={Link}
+                style={{ color: 'black' }}
+                to={{
+                  pathname: `/seats`,
+                  //search: `:id=${cabin_id}`,
+                  search: `
+                :seats= ${30}
+                  :from=${flight_from}
+                  :to=${flight_to}
+                  :date=${flight_date}
+                  :class=${flight_class}
+                  :number= ${flight_number}
+                  :departure=${flight_depart}
+                  :arrival= ${flight_arrive}
+                  `,
+                }}
+              >
+                Choose Another Seat
+              </Link>
+            </Button>
+            <Button
+              key={index + 7}
+              style={{ marginLeft: '10px' }}
+              variant='outline-secondary'
+              onClick={() => {
+                navigate('/');
+              }}
+            >
+              Choose Another Flight
             </Button>
           </Card.Body>
         </Card>
@@ -149,11 +210,9 @@ function ReservedFlights() {
         <h1>My Bookings</h1>
       </div>
       {data.map(renderCard)}
-      <Button
-        key={1111 + 1}
-        variant='success'
-        onClick={handleSendEmail}
-      >Send My Itinerary as Email</Button>
+      <Button key={1111 + 1} variant='success' onClick={handleSendEmail}>
+        Send My Itinerary as Email
+      </Button>
     </>
   );
 }

@@ -33,6 +33,7 @@ const Payment = () => {
           authorization: window.localStorage.getItem('token'),
         },
         params: {
+          token: token.id,
           selected: selected_seats,
           flight_number: flight_number,
           noOfSeats: no_Of_Seats,

@@ -30,42 +30,41 @@ const getAllUsers = (req, res) => {
 
 //returns all reservations of a user
 async function getAllReservations(req, res) {
-  //we need to get user here
-  //var user = 'dinah';
-  var user;
-
-  //console.log('jwt :' + req.headers['authorization'].replace(/['"]+/g, ''));
+  var my_user;
   var token = req.headers['authorization'];
   token = token.replace(/['"]+/g, '');
 
-  jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, (err, dbuser) => {
+  jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
     //console.log("error " + err);
     if (err) return res.sendStatus(403);
-    user = dbuser;
+    my_user = user;
     //next();
   });
 
-  console.log('username ' + user.username);
+  //we need to get user here
+  var user = 'dinah';
+  //var user = my_user.username;
+  //console.log('YSHEEHEJ' + user);
+
   var output = [];
 
   //get user id
   var uID;
-  await User.find({ username: user.username }).then((result) => {
+  await User.find({ username: user }).then((result) => {
     uID = result[0]._id;
+    //console.log('IDDDDD ' + uID);
   });
-
-  console.log('id ' + uID);
 
   //get bookings of user
   var results;
   await Booking.find({ userID: uID }).then((result) => {
-    console.log('Bookings ' + result);
     results = result;
+    //console.log('RESULTS ' + results);
   });
 
   //get flights of bookings
   for (var i = 0; i < results.length; i++) {
-    // console.log(results[i]);
+    console.log(results[i]);
     //console.log("rr "+results[i]);
     var t = {
       bnumber: 0,
@@ -83,12 +82,9 @@ async function getAllReservations(req, res) {
     t.price = results[i].price;
     t.seat_number = results[i].chosen_seats;
 
-    console.log('cabin ID ' + results[i].cabinID);
-
     await Cabin.find({ _id: results[i].cabinID.toString() }).then(
       (resultsz) => {
-        console.log('cabin' + resultsz);
-        console.log(resultsz[0]);
+        console.log('FGSYSNHJMSI ' + resultsz);
         if (resultsz[0].class == 0) {
           t.class = 'First';
         } else {
@@ -106,7 +102,6 @@ async function getAllReservations(req, res) {
     //console.log(results[i].class)
 
     await Flight.find({ _id: results[i].flightID }).then((resultss) => {
-      console.log(resultss);
       t.fnumber = resultss[0].number;
       t.from = resultss[0].from;
       t.to = resultss[0].to;
@@ -608,30 +603,64 @@ async function pay(req, res, next) {
 
   //insert into booking table
   const dbBooking = new Booking({
-    number : booking_number,
+    number: booking_number,
     price: price,
-    num_of_passengers:num_of_passengers,
+    num_of_passengers: num_of_passengers,
     chosen_seats: array_of_seats,
-    flightID:flightID,
-    userID:my_user._id,
-    cabinID: cabinID
-
+    flightID: flightID,
+    userID: my_user._id,
+    cabinID: cabinID,
   });
   dbBooking.save();
 
   //send payment email
+  //send email
+  var transport = nodemailer.createTransport(
+    smtpTransport({
+      host: 'smtp.mailtrap.io',
+      port: 587,
+      auth: {
+        user: '55fffd474bdfc1',
+        pass: '2994cb4fcca7ea',
+      },
+      secure: false,
+      //tls: {rejectUnauthorized: false}
+    })
+  );
+
+  //console.log('send Iten function ' + email);
+  //console.log('out ' + output.toString());
+
+  // //
+  var mailOptions = {
+    from: 'Admin <admin@airline.com>',
+    to: my_user.email,
+    subject: 'Confirmation mail',
+    text: 'Hey there,This is a payment confirmation email',
+    html: '<b>Hey there! </b><br> This is a payment confirmation email',
+  };
+
+  // send mail with defined transport object
+  await transport.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      return console.log(error);
+    }
+    console.log('Message sent: %s', info.messageId);
+  });
+
   //const { user, amount } = req.body;
+  const tokenn = req.query.token;
   const idempotencyKey = uuidv4();
 
   return stripe.customers
     .create({
       email: my_user.email,
-      source: my_user.toString(),
+      source: tokenn,
     })
     .then((customer) => {
       stripe.charges.create(
         {
-          amount: amount,
+          amount: price,
           currency: 'usd',
           customer: customer.id,
           receipt_email: my_user.email,
